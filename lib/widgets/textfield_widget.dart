@@ -17,7 +17,7 @@ class TextFieldWidget extends StatelessWidget {
       required this.controller,
       this.isObscure = false,
       this.width = 300,
-      this.height = 40,
+      this.height = 35,
       this.maxLine = 1,
       this.inputType = TextInputType.text});
 
@@ -26,9 +26,9 @@ class TextFieldWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextRegular(text: label, fontSize: 16, color: Colors.black),
+        TextRegular(text: label, fontSize: 12, color: Colors.black),
         const SizedBox(
-          height: 10,
+          height: 5,
         ),
         Container(
           height: height,
