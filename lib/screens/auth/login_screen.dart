@@ -44,10 +44,10 @@ class LoginScreen extends StatelessWidget {
                     height: 120,
                   ),
                   const SizedBox(
-                    width: 20,
+                    width: 30,
                   ),
                   SizedBox(
-                    width: 500,
+                    width: 800,
                     child: TextBold(
                         text:
                             'Physical Plant Maintenance Unit Motorpool Department',
