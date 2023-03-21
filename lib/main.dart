@@ -1,4 +1,4 @@
-import 'package:car_rental/screens/home_screen.dart';
+import 'package:car_rental/screens/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
             background: Container(color: Colors.white));
       }),
       title: 'Motorpool',
-      home: const HomeScreen(),
+      home: LoginScreen(),
     );
   }
 }
