@@ -4,6 +4,7 @@ import 'package:car_rental/screens/tabs/request_tab.dart';
 import 'package:car_rental/screens/vehicles_screen.dart';
 import 'package:car_rental/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -103,7 +104,14 @@ class HomeScreen extends StatelessWidget {
                               fontSize: 18,
                               color: Colors.white)),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            const buksu = 'https://buksu.edu.ph/';
+                            if (await canLaunch(buksu)) {
+                              await launch(buksu);
+                            } else {
+                              throw 'Could not launch $buksu';
+                            }
+                          },
                           child: TextBold(
                               text: 'University Link',
                               fontSize: 18,
