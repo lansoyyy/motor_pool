@@ -10,12 +10,13 @@ class ButtonWidget extends StatelessWidget {
   final Color? color;
 
   const ButtonWidget(
-      {required this.label,
+      {super.key,
+      required this.label,
       required this.onPressed,
       this.width = 300,
       this.fontSize = 18,
       this.height = 50,
-      this.color = const Color(0xff339655)});
+      this.color = const Color(0xff6571E0)});
   @override
   Widget build(BuildContext context) {
     return MaterialButton(

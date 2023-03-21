@@ -1,3 +1,4 @@
+import 'package:car_rental/screens/tabs/notif_tab.dart';
 import 'package:car_rental/screens/tabs/request_tab.dart';
 import 'package:car_rental/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                     child: SizedBox(
                   child: TabBarView(children: [
                     RequestTab(),
-                    const SizedBox(),
+                    const NotifTab(),
                   ]),
                 )),
                 Align(
