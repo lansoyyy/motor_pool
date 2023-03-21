@@ -1,5 +1,7 @@
+import 'package:car_rental/screens/about_us.dart';
 import 'package:car_rental/screens/tabs/notif_tab.dart';
 import 'package:car_rental/screens/tabs/request_tab.dart';
+import 'package:car_rental/screens/vehicles_screen.dart';
 import 'package:car_rental/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -67,11 +69,11 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                Expanded(
+                const Expanded(
                     child: SizedBox(
                   child: TabBarView(children: [
                     RequestTab(),
-                    const NotifTab(),
+                    NotifTab(),
                   ]),
                 )),
                 Align(
@@ -80,21 +82,24 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => const AboutUsPage()));
+                          },
                           child: TextBold(
                               text: 'About us',
                               fontSize: 18,
                               color: Colors.white)),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const VehiclesScreen()));
+                          },
                           child: TextBold(
                               text: 'Our vehicles',
-                              fontSize: 18,
-                              color: Colors.white)),
-                      TextButton(
-                          onPressed: () {},
-                          child: TextBold(
-                              text: 'Map of vehicles',
                               fontSize: 18,
                               color: Colors.white)),
                       TextButton(
