@@ -1,4 +1,5 @@
 import 'package:car_rental/screens/about_us.dart';
+import 'package:car_rental/screens/home_screen.dart';
 import 'package:car_rental/screens/vehicles_screen.dart';
 import 'package:car_rental/services/add_user.dart';
 import 'package:car_rental/widgets/text_widget.dart';
@@ -94,6 +95,10 @@ class LoginScreen extends StatelessWidget {
                                   .signInWithEmailAndPassword(
                                       email: emailController.text,
                                       password: passController.text);
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const HomeScreen()));
                             } catch (e) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -149,15 +154,27 @@ class LoginScreen extends StatelessWidget {
                                                 try {
                                                   await FirebaseAuth.instance
                                                       .createUserWithEmailAndPassword(
-                                                          email: emailController
-                                                              .text,
+                                                          email:
+                                                              newEmailController
+                                                                  .text,
                                                           password:
-                                                              passController
+                                                              newPassController
                                                                   .text);
                                                   addUser(
                                                       newNameController.text,
-                                                      emailController.text,
-                                                      passController.text);
+                                                      newEmailController.text,
+                                                      newPassController.text);
+                                                  Navigator.pop(context);
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: TextRegular(
+                                                          text:
+                                                              'Account created succesfully!',
+                                                          fontSize: 14,
+                                                          color: Colors.white),
+                                                    ),
+                                                  );
                                                 } catch (e) {
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
