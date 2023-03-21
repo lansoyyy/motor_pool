@@ -62,7 +62,13 @@ class VehiclesScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.network(cars[index].imageUrl),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Image.network(
+                            cars[index].imageUrl,
+                            height: 150,
+                          ),
                           const SizedBox(
                             height: 20,
                           ),
