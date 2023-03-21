@@ -2,6 +2,7 @@ import 'package:car_rental/screens/about_us.dart';
 import 'package:car_rental/screens/home_screen.dart';
 import 'package:car_rental/screens/vehicles_screen.dart';
 import 'package:car_rental/services/add_user.dart';
+import 'package:car_rental/utils/constant.dart';
 import 'package:car_rental/widgets/text_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -95,10 +96,11 @@ class LoginScreen extends StatelessWidget {
                                   .signInWithEmailAndPassword(
                                       email: emailController.text,
                                       password: passController.text);
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const HomeScreen()));
+                              Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                      builder: (context) => const HomeScreen(
+                                            userType: UserType.user,
+                                          )));
                             } catch (e) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
