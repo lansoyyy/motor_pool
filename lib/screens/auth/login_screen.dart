@@ -1,6 +1,8 @@
 import 'package:car_rental/screens/about_us.dart';
 import 'package:car_rental/screens/vehicles_screen.dart';
+import 'package:car_rental/services/add_user.dart';
 import 'package:car_rental/widgets/text_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -84,7 +86,25 @@ class LoginScreen extends StatelessWidget {
                       const SizedBox(
                         height: 30,
                       ),
-                      ButtonWidget(label: 'Login', onPressed: (() {})),
+                      ButtonWidget(
+                          label: 'Login',
+                          onPressed: (() async {
+                            try {
+                              await FirebaseAuth.instance
+                                  .signInWithEmailAndPassword(
+                                      email: emailController.text,
+                                      password: passController.text);
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: TextRegular(
+                                      text: e.toString(),
+                                      fontSize: 14,
+                                      color: Colors.white),
+                                ),
+                              );
+                            }
+                          })),
                       const SizedBox(
                         height: 10,
                       ),
@@ -125,7 +145,31 @@ class LoginScreen extends StatelessWidget {
                                           ),
                                           ButtonWidget(
                                               label: 'Register',
-                                              onPressed: (() {})),
+                                              onPressed: (() async {
+                                                try {
+                                                  await FirebaseAuth.instance
+                                                      .createUserWithEmailAndPassword(
+                                                          email: emailController
+                                                              .text,
+                                                          password:
+                                                              passController
+                                                                  .text);
+                                                  addUser(
+                                                      newNameController.text,
+                                                      emailController.text,
+                                                      passController.text);
+                                                } catch (e) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: TextRegular(
+                                                          text: e.toString(),
+                                                          fontSize: 14,
+                                                          color: Colors.white),
+                                                    ),
+                                                  );
+                                                }
+                                              })),
                                         ],
                                       ),
                                     ),
