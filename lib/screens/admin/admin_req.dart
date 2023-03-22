@@ -44,7 +44,7 @@ class AdminRequest extends StatelessWidget {
                 DataRow(cells: [
                   DataCell(
                     TextRegular(
-                        text: 'Lance Olana', fontSize: 14, color: Colors.grey),
+                        text: 'John Doe', fontSize: 14, color: Colors.grey),
                   ),
                   DataCell(
                     TextRegular(
