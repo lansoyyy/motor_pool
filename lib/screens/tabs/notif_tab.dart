@@ -35,6 +35,7 @@ class NotifTab extends StatelessWidget {
             child: ListView.builder(
                 itemCount: data.docs.length,
                 itemBuilder: (context, index) {
+                  final userData = data.docs[index];
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(450, 0, 450, 0),
                     child: Card(
@@ -49,11 +50,11 @@ class NotifTab extends StatelessWidget {
                           color: Colors.blue,
                         ),
                         title: TextRegular(
-                            text: 'Request for: Honda, Status: Approved',
+                            text: 'Request for: ${userData['vehicle']}',
                             fontSize: 15,
                             color: Colors.black),
                         subtitle: TextRegular(
-                            text: 'Status: Approved',
+                            text: 'Status: ${userData['status']}',
                             fontSize: 12,
                             color: Colors.blue),
                         trailing: TextBold(
