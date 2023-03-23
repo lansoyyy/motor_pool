@@ -189,6 +189,9 @@ class _RequestTabState extends State<RequestTab> {
                                       fontSize: 18,
                                       color: Colors.white)),
                             );
+                            nameController.clear();
+                            destinationController.clear();
+                            addressController.clear();
                           });
                         }))
                   ],
