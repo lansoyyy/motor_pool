@@ -93,7 +93,6 @@ class _RequestTabState extends State<RequestTab> {
                 height: 300,
                 width: 300,
                 decoration: const BoxDecoration(
-                    color: Colors.black,
                     image: DecorationImage(
                         image: NetworkImage(
                             'https://umindanao.edu.ph/images/tour/AV2_7905.JPG'))),
