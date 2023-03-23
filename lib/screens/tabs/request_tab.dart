@@ -1,3 +1,4 @@
+import 'package:car_rental/services/add_req.dart';
 import 'package:car_rental/widgets/button_widget.dart';
 import 'package:car_rental/widgets/text_widget.dart';
 import 'package:car_rental/widgets/textfield_widget.dart';
@@ -52,13 +53,19 @@ class _RequestTabState extends State<RequestTab> {
     }
   }
 
-  String _selectedItem = 'Item 1';
+  String _selectedItem = 'Sedans';
+
   final List<String> _items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5'
+    "Sedans",
+    "SUVs",
+    "Vans",
+    "Pickup trucks",
+    "Military vehicles",
+    "Motorcycles",
+    "Buses",
+    "Tractors",
+    "Trailers",
+    "Specialty vehicles",
   ];
 
   @override
@@ -168,7 +175,21 @@ class _RequestTabState extends State<RequestTab> {
                     ButtonWidget(
                         label: 'Submit',
                         onPressed: (() {
-                          _selectDateTime(context);
+                          _selectDateTime(context).then((value) {
+                            addReq(
+                                nameController.text,
+                                addressController.text,
+                                _selectedItem,
+                                destinationController.text,
+                                selectedDateTime);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: TextBold(
+                                      text: 'Request sent succesfully!',
+                                      fontSize: 18,
+                                      color: Colors.white)),
+                            );
+                          });
                         }))
                   ],
                 ),
