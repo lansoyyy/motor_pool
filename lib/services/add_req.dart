@@ -12,7 +12,8 @@ Future addReq(name, address, vehicle, destination, dateTime) async {
     'vehicle': vehicle,
     'destination': destination,
     'status': 'Pending',
-    'dateTime': dateTime
+    'dateTime': dateTime,
+    'userId': FirebaseAuth.instance.currentUser!.uid
   };
 
   await docUser.set(json);
