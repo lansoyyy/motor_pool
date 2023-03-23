@@ -2,6 +2,7 @@ import 'package:car_rental/widgets/text_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NotifTab extends StatelessWidget {
   const NotifTab({super.key});
@@ -58,7 +59,9 @@ class NotifTab extends StatelessWidget {
                             fontSize: 12,
                             color: Colors.blue),
                         trailing: TextBold(
-                            text: 'Date and Time',
+                            text: DateFormat.yMMMd()
+                                .add_jm()
+                                .format(userData['dateTime'].toDate()),
                             fontSize: 15,
                             color: Colors.black),
                       ),
