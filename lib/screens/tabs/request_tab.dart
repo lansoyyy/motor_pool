@@ -102,98 +102,100 @@ class _RequestTabState extends State<RequestTab> {
                     EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 30),
                 child: VerticalDivider(),
               ),
-              SizedBox(
-                height: 375,
-                width: 300,
-                child: Column(
-                  children: [
-                    Center(
-                      child: TextBold(
-                          text: 'Request vehicle now!',
-                          fontSize: 18,
-                          color: Colors.black),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFieldWidget(
-                        label: 'Full name', controller: nameController),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFieldWidget(
-                        label: 'Address', controller: addressController),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: TextRegular(
-                          text: 'Vehicle', fontSize: 12, color: Colors.black),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.black,
+              SingleChildScrollView(
+                child: SizedBox(
+                  height: 375,
+                  width: 300,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: TextBold(
+                            text: 'Request vehicle now!',
+                            fontSize: 18,
+                            color: Colors.black),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFieldWidget(
+                          label: 'Full name', controller: nameController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFieldWidget(
+                          label: 'Address', controller: addressController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: TextRegular(
+                            text: 'Vehicle', fontSize: 12, color: Colors.black),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                            borderRadius: BorderRadius.circular(5)),
+                        width: 300,
+                        height: 35,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: DropdownButton<String>(
+                            underline: Container(color: Colors.transparent),
+                            value: _selectedItem,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedItem = value!;
+                              });
+                            },
+                            items: _items.map((item) {
+                              return DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(item),
+                              );
+                            }).toList(),
                           ),
-                          borderRadius: BorderRadius.circular(5)),
-                      width: 300,
-                      height: 35,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: DropdownButton<String>(
-                          underline: Container(color: Colors.transparent),
-                          value: _selectedItem,
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedItem = value!;
-                            });
-                          },
-                          items: _items.map((item) {
-                            return DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(item),
-                            );
-                          }).toList(),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFieldWidget(
-                        label: 'Destination',
-                        controller: destinationController),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    ButtonWidget(
-                        label: 'Submit',
-                        onPressed: (() {
-                          _selectDateTime(context).then((value) {
-                            addReq(
-                                nameController.text,
-                                addressController.text,
-                                _selectedItem,
-                                destinationController.text,
-                                selectedDateTime);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: TextBold(
-                                      text: 'Request sent succesfully!',
-                                      fontSize: 18,
-                                      color: Colors.white)),
-                            );
-                            nameController.clear();
-                            destinationController.clear();
-                            addressController.clear();
-                          });
-                        }))
-                  ],
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFieldWidget(
+                          label: 'Destination',
+                          controller: destinationController),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      ButtonWidget(
+                          label: 'Submit',
+                          onPressed: (() {
+                            _selectDateTime(context).then((value) {
+                              addReq(
+                                  nameController.text,
+                                  addressController.text,
+                                  _selectedItem,
+                                  destinationController.text,
+                                  selectedDateTime);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: TextBold(
+                                        text: 'Request sent succesfully!',
+                                        fontSize: 18,
+                                        color: Colors.white)),
+                              );
+                              nameController.clear();
+                              destinationController.clear();
+                              addressController.clear();
+                            });
+                          }))
+                    ],
+                  ),
                 ),
               ),
             ],

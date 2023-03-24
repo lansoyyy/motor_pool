@@ -69,148 +69,155 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              Container(
-                color: Colors.white,
-                height: 375,
-                width: 300,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextFieldWidget(
-                          label: 'Email', controller: emailController),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFieldWidget(
-                          isObscure: true,
-                          label: 'Password',
-                          controller: passController),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      ButtonWidget(
-                          label: 'Login',
-                          onPressed: (() async {
-                            if (emailController.text == 'admin' &&
-                                passController.text == 'admin') {
-                              Navigator.of(context)
-                                  .pushReplacement(MaterialPageRoute(
-                                      builder: (context) => const HomeScreen(
-                                            userType: UserType.admin,
-                                          )));
-                            } else {
-                              try {
-                                await FirebaseAuth.instance
-                                    .signInWithEmailAndPassword(
-                                        email: emailController.text,
-                                        password: passController.text);
+              SingleChildScrollView(
+                child: Container(
+                  color: Colors.white,
+                  height: 375,
+                  width: 300,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextFieldWidget(
+                            label: 'Email', controller: emailController),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFieldWidget(
+                            isObscure: true,
+                            label: 'Password',
+                            controller: passController),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        ButtonWidget(
+                            label: 'Login',
+                            onPressed: (() async {
+                              if (emailController.text == 'admin' &&
+                                  passController.text == 'admin') {
                                 Navigator.of(context)
                                     .pushReplacement(MaterialPageRoute(
                                         builder: (context) => const HomeScreen(
-                                              userType: UserType.user,
+                                              userType: UserType.admin,
                                             )));
-                              } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: TextRegular(
-                                        text: e.toString(),
-                                        fontSize: 14,
-                                        color: Colors.white),
-                                  ),
-                                );
-                              }
-                            }
-                          })),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return Dialog(
-                                      child: Container(
-                                    color: Colors.white,
-                                    height: 375,
-                                    width: 300,
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          20, 10, 20, 10),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          TextFieldWidget(
-                                              label: 'Full Name',
-                                              controller: newNameController),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          TextFieldWidget(
-                                              label: 'Email',
-                                              controller: newEmailController),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          TextFieldWidget(
-                                              label: 'Password',
-                                              controller: newPassController),
-                                          const SizedBox(
-                                            height: 30,
-                                          ),
-                                          ButtonWidget(
-                                              label: 'Register',
-                                              onPressed: (() async {
-                                                try {
-                                                  await FirebaseAuth.instance
-                                                      .createUserWithEmailAndPassword(
-                                                          email:
-                                                              newEmailController
-                                                                  .text,
-                                                          password:
-                                                              newPassController
-                                                                  .text);
-                                                  addUser(
-                                                      newNameController.text,
-                                                      newEmailController.text,
-                                                      newPassController.text);
-                                                  Navigator.pop(context);
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: TextRegular(
-                                                          text:
-                                                              'Account created succesfully!',
-                                                          fontSize: 14,
-                                                          color: Colors.white),
-                                                    ),
-                                                  );
-                                                } catch (e) {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: TextRegular(
-                                                          text: e.toString(),
-                                                          fontSize: 14,
-                                                          color: Colors.white),
-                                                    ),
-                                                  );
-                                                }
-                                              })),
-                                        ],
-                                      ),
+                              } else {
+                                try {
+                                  await FirebaseAuth.instance
+                                      .signInWithEmailAndPassword(
+                                          email: emailController.text,
+                                          password: passController.text);
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const HomeScreen(
+                                                userType: UserType.user,
+                                              )));
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: TextRegular(
+                                          text: e.toString(),
+                                          fontSize: 14,
+                                          color: Colors.white),
                                     ),
-                                  ));
-                                });
-                          },
-                          child: TextBold(
-                              text: 'Register',
-                              fontSize: 14,
-                              color: Colors.black)),
-                    ],
+                                  );
+                                }
+                              }
+                            })),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Dialog(
+                                        child: Container(
+                                      color: Colors.white,
+                                      height: 375,
+                                      width: 300,
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            20, 10, 20, 10),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            TextFieldWidget(
+                                                label: 'Full Name',
+                                                controller: newNameController),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            TextFieldWidget(
+                                                label: 'Email',
+                                                controller: newEmailController),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            TextFieldWidget(
+                                                label: 'Password',
+                                                controller: newPassController),
+                                            const SizedBox(
+                                              height: 30,
+                                            ),
+                                            ButtonWidget(
+                                                label: 'Register',
+                                                onPressed: (() async {
+                                                  try {
+                                                    await FirebaseAuth.instance
+                                                        .createUserWithEmailAndPassword(
+                                                            email:
+                                                                newEmailController
+                                                                    .text,
+                                                            password:
+                                                                newPassController
+                                                                    .text);
+                                                    addUser(
+                                                        newNameController.text,
+                                                        newEmailController.text,
+                                                        newPassController.text);
+                                                    Navigator.pop(context);
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: TextRegular(
+                                                            text:
+                                                                'Account created succesfully!',
+                                                            fontSize: 14,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    );
+                                                  } catch (e) {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: TextRegular(
+                                                            text: e.toString(),
+                                                            fontSize: 14,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    );
+                                                  }
+                                                })),
+                                          ],
+                                        ),
+                                      ),
+                                    ));
+                                  });
+                            },
+                            child: TextBold(
+                                text: 'Register',
+                                fontSize: 14,
+                                color: Colors.black)),
+                      ],
+                    ),
                   ),
                 ),
               ),
