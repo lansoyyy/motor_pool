@@ -1,7 +1,6 @@
 import 'package:car_rental/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
-
 void main() {
   runApp(const MyApp());
 }
