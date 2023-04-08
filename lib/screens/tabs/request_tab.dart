@@ -1,9 +1,12 @@
+import 'package:car_rental/services/add_req.dart';
 import 'package:car_rental/widgets/button_widget.dart';
 import 'package:car_rental/widgets/text_widget.dart';
 import 'package:car_rental/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 
 class RequestTab extends StatefulWidget {
+  const RequestTab({super.key});
+
   @override
   State<RequestTab> createState() => _RequestTabState();
 }
@@ -50,13 +53,19 @@ class _RequestTabState extends State<RequestTab> {
     }
   }
 
-  String _selectedItem = 'Item 1';
+  String _selectedItem = 'Sedans';
+
   final List<String> _items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5'
+    "Sedans",
+    "SUVs",
+    "Vans",
+    "Pickup trucks",
+    "Military vehicles",
+    "Motorcycles",
+    "Buses",
+    "Tractors",
+    "Trailers",
+    "Specialty vehicles",
   ];
 
   @override
@@ -83,88 +92,110 @@ class _RequestTabState extends State<RequestTab> {
               Container(
                 height: 300,
                 width: 300,
-                color: Colors.black,
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(
+                            'https://umindanao.edu.ph/images/tour/AV2_7905.JPG'))),
               ),
               const Padding(
                 padding:
                     EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 30),
                 child: VerticalDivider(),
               ),
-              SizedBox(
-                height: 375,
-                width: 300,
-                child: Column(
-                  children: [
-                    Center(
-                      child: TextBold(
-                          text: 'Request vehicle now!',
-                          fontSize: 18,
-                          color: Colors.black),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFieldWidget(
-                        label: 'Full name', controller: nameController),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFieldWidget(
-                        label: 'Address', controller: addressController),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: TextRegular(
-                          text: 'Vehicle', fontSize: 12, color: Colors.black),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.black,
+              SingleChildScrollView(
+                child: SizedBox(
+                  height: 375,
+                  width: 300,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: TextBold(
+                            text: 'Request vehicle now!',
+                            fontSize: 18,
+                            color: Colors.black),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFieldWidget(
+                          label: 'Full name', controller: nameController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFieldWidget(
+                          label: 'Address', controller: addressController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: TextRegular(
+                            text: 'Vehicle', fontSize: 12, color: Colors.black),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                            borderRadius: BorderRadius.circular(5)),
+                        width: 300,
+                        height: 35,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: DropdownButton<String>(
+                            underline: Container(color: Colors.transparent),
+                            value: _selectedItem,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedItem = value!;
+                              });
+                            },
+                            items: _items.map((item) {
+                              return DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(item),
+                              );
+                            }).toList(),
                           ),
-                          borderRadius: BorderRadius.circular(5)),
-                      width: 300,
-                      height: 35,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: DropdownButton<String>(
-                          underline: Container(color: Colors.transparent),
-                          value: _selectedItem,
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedItem = value!;
-                            });
-                          },
-                          items: _items.map((item) {
-                            return DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(item),
-                            );
-                          }).toList(),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFieldWidget(
-                        label: 'Destination',
-                        controller: destinationController),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    ButtonWidget(
-                        label: 'Submit',
-                        onPressed: (() {
-                          _selectDateTime(context);
-                        }))
-                  ],
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFieldWidget(
+                          label: 'Destination',
+                          controller: destinationController),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      ButtonWidget(
+                          label: 'Submit',
+                          onPressed: (() {
+                            _selectDateTime(context).then((value) {
+                              addReq(
+                                  nameController.text,
+                                  addressController.text,
+                                  _selectedItem,
+                                  destinationController.text,
+                                  selectedDateTime);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: TextBold(
+                                        text: 'Request sent succesfully!',
+                                        fontSize: 18,
+                                        color: Colors.white)),
+                              );
+                              nameController.clear();
+                              destinationController.clear();
+                              addressController.clear();
+                            });
+                          }))
+                    ],
+                  ),
                 ),
               ),
             ],
