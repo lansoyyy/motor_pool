@@ -56,16 +56,23 @@ class _RequestTabState extends State<RequestTab> {
   String _selectedItem = 'Sedans';
 
   final List<String> _items = [
-    "Sedans",
-    "SUVs",
-    "Vans",
-    "Pickup trucks",
-    "Military vehicles",
-    "Motorcycles",
-    "Buses",
-    "Tractors",
-    "Trailers",
-    "Specialty vehicles",
+    'Toyota Fortuner',
+    'Kia Sportage',
+    'Toyota Avanza',
+    'Toyota Innova',
+    'T-Hi-Ace Grandia',
+    'T-Hi-Ace Commuter',
+    'T-Hi-Ace Commuter',
+    'T-Hi-Ace Commuter',
+    'Mitsubishi L300',
+    'Toyota Hilux',
+    'Toyota Hilux',
+    'Toyota Hilux',
+    'T.T.FX. Revo SR',
+    'Hino Truck Van',
+    'Hino Bus New',
+    'Hyundai County',
+    'Willys Jeep'
   ];
 
   @override
