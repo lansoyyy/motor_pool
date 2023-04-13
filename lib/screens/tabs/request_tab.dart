@@ -53,7 +53,7 @@ class _RequestTabState extends State<RequestTab> {
     }
   }
 
-  String _selectedItem = 'Sedans';
+  String _selectedItem = 'Toyota Fortuner';
 
   final List<String> _items = [
     'Toyota Fortuner',
@@ -62,11 +62,7 @@ class _RequestTabState extends State<RequestTab> {
     'Toyota Innova',
     'T-Hi-Ace Grandia',
     'T-Hi-Ace Commuter',
-    'T-Hi-Ace Commuter',
-    'T-Hi-Ace Commuter',
     'Mitsubishi L300',
-    'Toyota Hilux',
-    'Toyota Hilux',
     'Toyota Hilux',
     'T.T.FX. Revo SR',
     'Hino Truck Van',
