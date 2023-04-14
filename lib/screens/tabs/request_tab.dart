@@ -446,24 +446,34 @@ class _RequestTabState extends State<RequestTab> {
                       ButtonWidget(
                           label: 'Submit',
                           onPressed: (() {
-                            _selectDateTime(context).then((value) {
-                              addReq(
-                                  nameController.text,
-                                  addressController.text,
-                                  _selectedItem,
-                                  destinationController.text,
-                                  selectedDateTime);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    content: TextBold(
-                                        text: 'Request sent succesfully!',
-                                        fontSize: 18,
-                                        color: Colors.white)),
-                              );
-                              nameController.clear();
-                              destinationController.clear();
-                              addressController.clear();
-                            });
+                            addReq(
+                                nameController.text,
+                                addressController.text,
+                                destinationController.text,
+                                organizationController.text,
+                                contactNumberController.text,
+                                purposeOfTravelController.text,
+                                vehicleTemplateController.text,
+                                _selectedItem,
+                                dateOfTravel,
+                                departureTime,
+                                arrivalTime,
+                                returnDate,
+                                returnTime);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: TextBold(
+                                      text: 'Request sent succesfully!',
+                                      fontSize: 18,
+                                      color: Colors.white)),
+                            );
+                            nameController.clear();
+                            destinationController.clear();
+                            addressController.clear();
+                            organizationController.clear();
+                            contactNumberController.clear();
+                            purposeOfTravelController.clear();
+                            vehicleTemplateController.clear();
                           }))
                     ],
                   ),

@@ -88,10 +88,9 @@ class HomeScreen extends StatelessWidget {
                       Expanded(
                           child: SizedBox(
                         child: TabBarView(children: [
-                          // userType == UserType.user
-                          //     ? const RequestTab()
-                          //     : const AdminRequest(),
-                          const RequestTab(),
+                          userType == UserType.user
+                              ? const RequestTab()
+                              : const AdminRequest(),
                           userType == UserType.user
                               ? const NotifTab()
                               : const AdminRecord()
