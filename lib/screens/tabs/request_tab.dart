@@ -17,6 +17,15 @@ class _RequestTabState extends State<RequestTab> {
   final addressController = TextEditingController();
 
   final destinationController = TextEditingController();
+  final organizationController = TextEditingController();
+  final contactNumberController = TextEditingController();
+  final purposeOfTravelController = TextEditingController();
+  final vehicleTemplateController = TextEditingController();
+  String dateOfTravel = '';
+  String departureTime = '';
+  String arrivalTime = '';
+  String returnDate = '';
+  String returnTime = '';
 
   DateTime selectedDateTime = DateTime.now();
 
@@ -92,10 +101,10 @@ class _RequestTabState extends State<RequestTab> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SingleChildScrollView(
-                child: SizedBox(
-                  height: 375,
-                  width: 300,
+              SizedBox(
+                height: 375,
+                width: 300,
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
                       Center(
@@ -108,57 +117,81 @@ class _RequestTabState extends State<RequestTab> {
                         height: 20,
                       ),
                       TextFieldWidget(
+                          label:
+                              'Name of Organization (Office/Department/Unit)',
+                          controller: organizationController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFieldWidget(
                           label: 'Full name', controller: nameController),
                       const SizedBox(
                         height: 10,
                       ),
                       TextFieldWidget(
-                          label: 'Address', controller: addressController),
+                          label: 'Contact Number',
+                          controller: contactNumberController),
                       const SizedBox(
                         height: 10,
                       ),
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: TextRegular(
-                            text: 'Vehicle', fontSize: 12, color: Colors.black),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(5)),
-                        width: 300,
-                        height: 35,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: DropdownButton<String>(
-                            underline: Container(color: Colors.transparent),
-                            value: _selectedItem,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedItem = value!;
-                              });
-                            },
-                            items: _items.map((item) {
-                              return DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(item),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
+                      TextFieldWidget(
+                          label: 'Purpose of Travel',
+                          controller: purposeOfTravelController),
                       const SizedBox(
                         height: 10,
                       ),
                       TextFieldWidget(
                           label: 'Destination',
                           controller: destinationController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          final DateTime? selectedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100),
+                          );
+
+                          if (selectedDate != null) {
+                            setState(() {
+                              dateOfTravel =
+                                  "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
+                            });
+                          }
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextRegular(
+                                text: 'Date of Travel',
+                                fontSize: 12,
+                                color: Colors.black),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              height: 35,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: TextFormField(
+                                enabled: false,
+                                decoration: InputDecoration(
+                                  hintText:
+                                      dateOfTravel == '' ? '' : dateOfTravel,
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       const SizedBox(
                         height: 30,
                       ),
@@ -171,19 +204,103 @@ class _RequestTabState extends State<RequestTab> {
                     EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 30),
                 child: VerticalDivider(),
               ),
-              SingleChildScrollView(
-                child: SizedBox(
-                  height: 375,
-                  width: 300,
+              SizedBox(
+                height: 375,
+                width: 300,
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      TextFieldWidget(
-                          label: 'Full name', controller: nameController),
+                      GestureDetector(
+                        onTap: () async {
+                          final TimeOfDay? selectedTime = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          );
+
+                          if (selectedTime != null) {
+                            setState(() {
+                              departureTime =
+                                  "${selectedTime.hour}:${selectedTime.minute}";
+                            });
+                          }
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextRegular(
+                                text: 'Expecture Departure Time',
+                                fontSize: 12,
+                                color: Colors.black),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              height: 35,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: TextFormField(
+                                enabled: false,
+                                decoration: InputDecoration(
+                                  hintText:
+                                      departureTime == '' ? '' : departureTime,
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
-                      TextFieldWidget(
-                          label: 'Address', controller: addressController),
+                      GestureDetector(
+                        onTap: () async {
+                          final TimeOfDay? selectedTime = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          );
+
+                          if (selectedTime != null) {
+                            setState(() {
+                              arrivalTime =
+                                  "${selectedTime.hour}:${selectedTime.minute}";
+                            });
+                          }
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextRegular(
+                                text: 'Expecture Arrival Time',
+                                fontSize: 12,
+                                color: Colors.black),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              height: 35,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: TextFormField(
+                                enabled: false,
+                                decoration: InputDecoration(
+                                  hintText:
+                                      arrivalTime == '' ? '' : arrivalTime,
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -227,8 +344,102 @@ class _RequestTabState extends State<RequestTab> {
                         height: 10,
                       ),
                       TextFieldWidget(
-                          label: 'Destination',
-                          controller: destinationController),
+                          label: 'Motor Vehicle Template Number',
+                          controller: vehicleTemplateController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          final DateTime? selectedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100),
+                          );
+
+                          if (selectedDate != null) {
+                            setState(() {
+                              returnDate =
+                                  "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
+                            });
+                          }
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextRegular(
+                                text: 'Expecture Return Date',
+                                fontSize: 12,
+                                color: Colors.black),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              height: 35,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: TextFormField(
+                                enabled: false,
+                                decoration: InputDecoration(
+                                  hintText: returnDate == '' ? '' : returnDate,
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          final TimeOfDay? selectedTime = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          );
+
+                          if (selectedTime != null) {
+                            setState(() {
+                              returnTime =
+                                  "${selectedTime.hour}:${selectedTime.minute}";
+                            });
+                          }
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextRegular(
+                                text: 'Expecture Return Time',
+                                fontSize: 12,
+                                color: Colors.black),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              height: 35,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: TextFormField(
+                                enabled: false,
+                                decoration: InputDecoration(
+                                  hintText: returnTime == '' ? '' : returnTime,
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       const SizedBox(
                         height: 30,
                       ),
