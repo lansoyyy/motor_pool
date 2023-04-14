@@ -92,13 +92,79 @@ class _RequestTabState extends State<RequestTab> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                height: 300,
-                width: 300,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(
-                            'https://umindanao.edu.ph/images/tour/AV2_7905.JPG'))),
+              SingleChildScrollView(
+                child: SizedBox(
+                  height: 375,
+                  width: 300,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: TextBold(
+                            text: 'Motor Vehicle Use Request Form',
+                            fontSize: 18,
+                            color: Colors.black),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFieldWidget(
+                          label: 'Full name', controller: nameController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFieldWidget(
+                          label: 'Address', controller: addressController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: TextRegular(
+                            text: 'Vehicle', fontSize: 12, color: Colors.black),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                            borderRadius: BorderRadius.circular(5)),
+                        width: 300,
+                        height: 35,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: DropdownButton<String>(
+                            underline: Container(color: Colors.transparent),
+                            value: _selectedItem,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedItem = value!;
+                              });
+                            },
+                            items: _items.map((item) {
+                              return DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(item),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFieldWidget(
+                          label: 'Destination',
+                          controller: destinationController),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
+                ),
               ),
               const Padding(
                 padding:
@@ -111,15 +177,6 @@ class _RequestTabState extends State<RequestTab> {
                   width: 300,
                   child: Column(
                     children: [
-                      Center(
-                        child: TextBold(
-                            text: 'Request vehicle now!',
-                            fontSize: 18,
-                            color: Colors.black),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
                       TextFieldWidget(
                           label: 'Full name', controller: nameController),
                       const SizedBox(
