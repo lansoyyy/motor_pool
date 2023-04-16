@@ -17,6 +17,15 @@ class _RequestTabState extends State<RequestTab> {
   final addressController = TextEditingController();
 
   final destinationController = TextEditingController();
+  final organizationController = TextEditingController();
+  final contactNumberController = TextEditingController();
+  final purposeOfTravelController = TextEditingController();
+  final vehicleTemplateController = TextEditingController();
+  String dateOfTravel = '';
+  String departureTime = '';
+  String arrivalTime = '';
+  String returnDate = '';
+  String returnTime = '';
 
   DateTime selectedDateTime = DateTime.now();
 
@@ -53,19 +62,22 @@ class _RequestTabState extends State<RequestTab> {
     }
   }
 
-  String _selectedItem = 'Sedans';
+  String _selectedItem = 'Toyota Fortuner';
 
   final List<String> _items = [
-    "Sedans",
-    "SUVs",
-    "Vans",
-    "Pickup trucks",
-    "Military vehicles",
-    "Motorcycles",
-    "Buses",
-    "Tractors",
-    "Trailers",
-    "Specialty vehicles",
+    'Toyota Fortuner',
+    'Kia Sportage',
+    'Toyota Avanza',
+    'Toyota Innova',
+    'T-Hi-Ace Grandia',
+    'T-Hi-Ace Commuter',
+    'Mitsubishi L300',
+    'Toyota Hilux',
+    'T.T.FX. Revo SR',
+    'Hino Truck Van',
+    'Hino Bus New',
+    'Hyundai County',
+    'Willys Jeep'
   ];
 
   @override
@@ -89,28 +101,15 @@ class _RequestTabState extends State<RequestTab> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                height: 300,
+              SizedBox(
+                height: 375,
                 width: 300,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(
-                            'https://umindanao.edu.ph/images/tour/AV2_7905.JPG'))),
-              ),
-              const Padding(
-                padding:
-                    EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 30),
-                child: VerticalDivider(),
-              ),
-              SingleChildScrollView(
-                child: SizedBox(
-                  height: 375,
-                  width: 300,
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
                       Center(
                         child: TextBold(
-                            text: 'Request vehicle now!',
+                            text: 'Motor Vehicle Use Request Form',
                             fontSize: 18,
                             color: Colors.black),
                       ),
@@ -118,12 +117,190 @@ class _RequestTabState extends State<RequestTab> {
                         height: 20,
                       ),
                       TextFieldWidget(
+                          label:
+                              'Name of Organization (Office/Department/Unit)',
+                          controller: organizationController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFieldWidget(
                           label: 'Full name', controller: nameController),
                       const SizedBox(
                         height: 10,
                       ),
                       TextFieldWidget(
-                          label: 'Address', controller: addressController),
+                          label: 'Contact Number',
+                          controller: contactNumberController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFieldWidget(
+                          label: 'Purpose of Travel',
+                          controller: purposeOfTravelController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFieldWidget(
+                          label: 'Destination',
+                          controller: destinationController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          final DateTime? selectedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100),
+                          );
+
+                          if (selectedDate != null) {
+                            setState(() {
+                              dateOfTravel =
+                                  "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
+                            });
+                          }
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextRegular(
+                                text: 'Date of Travel',
+                                fontSize: 12,
+                                color: Colors.black),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              height: 35,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: TextFormField(
+                                enabled: false,
+                                decoration: InputDecoration(
+                                  hintText:
+                                      dateOfTravel == '' ? '' : dateOfTravel,
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const Padding(
+                padding:
+                    EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 30),
+                child: VerticalDivider(),
+              ),
+              SizedBox(
+                height: 375,
+                width: 300,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          final TimeOfDay? selectedTime = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          );
+
+                          if (selectedTime != null) {
+                            setState(() {
+                              departureTime =
+                                  "${selectedTime.hour}:${selectedTime.minute}";
+                            });
+                          }
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextRegular(
+                                text: 'Expecture Departure Time',
+                                fontSize: 12,
+                                color: Colors.black),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              height: 35,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: TextFormField(
+                                enabled: false,
+                                decoration: InputDecoration(
+                                  hintText:
+                                      departureTime == '' ? '' : departureTime,
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          final TimeOfDay? selectedTime = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          );
+
+                          if (selectedTime != null) {
+                            setState(() {
+                              arrivalTime =
+                                  "${selectedTime.hour}:${selectedTime.minute}";
+                            });
+                          }
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextRegular(
+                                text: 'Expecture Arrival Time',
+                                fontSize: 12,
+                                color: Colors.black),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              height: 35,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: TextFormField(
+                                enabled: false,
+                                decoration: InputDecoration(
+                                  hintText:
+                                      arrivalTime == '' ? '' : arrivalTime,
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -167,32 +344,136 @@ class _RequestTabState extends State<RequestTab> {
                         height: 10,
                       ),
                       TextFieldWidget(
-                          label: 'Destination',
-                          controller: destinationController),
+                          label: 'Motor Vehicle Template Number',
+                          controller: vehicleTemplateController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          final DateTime? selectedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100),
+                          );
+
+                          if (selectedDate != null) {
+                            setState(() {
+                              returnDate =
+                                  "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
+                            });
+                          }
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextRegular(
+                                text: 'Expecture Return Date',
+                                fontSize: 12,
+                                color: Colors.black),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              height: 35,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: TextFormField(
+                                enabled: false,
+                                decoration: InputDecoration(
+                                  hintText: returnDate == '' ? '' : returnDate,
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          final TimeOfDay? selectedTime = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          );
+
+                          if (selectedTime != null) {
+                            setState(() {
+                              returnTime =
+                                  "${selectedTime.hour}:${selectedTime.minute}";
+                            });
+                          }
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextRegular(
+                                text: 'Expecture Return Time',
+                                fontSize: 12,
+                                color: Colors.black),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              height: 35,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: TextFormField(
+                                enabled: false,
+                                decoration: InputDecoration(
+                                  hintText: returnTime == '' ? '' : returnTime,
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       const SizedBox(
                         height: 30,
                       ),
                       ButtonWidget(
                           label: 'Submit',
                           onPressed: (() {
-                            _selectDateTime(context).then((value) {
-                              addReq(
-                                  nameController.text,
-                                  addressController.text,
-                                  _selectedItem,
-                                  destinationController.text,
-                                  selectedDateTime);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    content: TextBold(
-                                        text: 'Request sent succesfully!',
-                                        fontSize: 18,
-                                        color: Colors.white)),
-                              );
-                              nameController.clear();
-                              destinationController.clear();
-                              addressController.clear();
-                            });
+                            addReq(
+                                nameController.text,
+                                addressController.text,
+                                destinationController.text,
+                                organizationController.text,
+                                contactNumberController.text,
+                                purposeOfTravelController.text,
+                                vehicleTemplateController.text,
+                                _selectedItem,
+                                dateOfTravel,
+                                departureTime,
+                                arrivalTime,
+                                returnDate,
+                                returnTime);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: TextBold(
+                                      text: 'Request sent succesfully!',
+                                      fontSize: 18,
+                                      color: Colors.white)),
+                            );
+                            nameController.clear();
+                            destinationController.clear();
+                            addressController.clear();
+                            organizationController.clear();
+                            contactNumberController.clear();
+                            purposeOfTravelController.clear();
+                            vehicleTemplateController.clear();
                           }))
                     ],
                   ),
