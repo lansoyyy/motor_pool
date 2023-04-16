@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class NotifTab extends StatelessWidget {
-  const NotifTab({super.key});
+  const NotifTab({Key? key}) : super(key: key);
+
+  
 
   @override
   Widget build(BuildContext context) {

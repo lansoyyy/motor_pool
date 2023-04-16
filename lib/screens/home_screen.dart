@@ -13,7 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 class HomeScreen extends StatelessWidget {
   final UserType? userType;
 
-  const HomeScreen({super.key, this.userType});
+  const HomeScreen({Key? key, this.userType}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,7 @@ class HomeScreen extends StatelessWidget {
                               : const AdminRequest(),
                           userType == UserType.user
                               ? const NotifTab()
-                              : const AdminRecord()
+                              : AdminRecord()
                         ]),
                       )),
                       Align(
@@ -129,7 +129,7 @@ class HomeScreen extends StatelessWidget {
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const AdminMap()));
+                                                  AdminMap()));
                                     },
                                     child: TextBold(
                                         text: 'Map of Vehicles',

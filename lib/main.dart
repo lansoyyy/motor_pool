@@ -6,12 +6,14 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+      name: 'motorpool',
       options: const FirebaseOptions(
           apiKey: "AIzaSyCsuE6hVHTLyGzK8rfVGLAvQlgF_uimUDQ",
           appId: "1:335301664598:web:eb465d2051f6c6e4b980f7",
           messagingSenderId: "335301664598",
           projectId: "moto-e9a4b",
           storageBucket: "moto-e9a4b.appspot.com"));
+
   runApp(const MyApp());
 }
 

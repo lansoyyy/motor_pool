@@ -2,7 +2,7 @@ import 'package:car_rental/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 
 class AdminRecord extends StatelessWidget {
-  const AdminRecord({super.key});
+  const AdminRecord({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
