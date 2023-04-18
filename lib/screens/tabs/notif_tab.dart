@@ -43,21 +43,69 @@ class NotifTab extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(450, 0, 450, 0),
                     child: GestureDetector(
                       onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return VehicleRequestDialog(
-                                  name: userData['name'],
-                                  contactNumber: userData['contactNumber'],
-                                  organizationName: userData['organization'],
-                                  vehicleType: userData['vehicle'],
-                                  vehicleTemplateNumber:
-                                      userData['vehicleTemplate'],
-                                  purposeOfTravel: userData['purposeOfTravel'],
-                                  dateOfTravel: userData['dateOfTravel'],
-                                  returnDateAndTime:
-                                      '${userData['returnDate']} ${userData['returnTime']}');
-                            });
+                        if (data.docs[index]['status'] == 'Pending') {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return VehicleRequestDialog(
+                                    name: userData['name'],
+                                    contactNumber: userData['contactNumber'],
+                                    organizationName: userData['organization'],
+                                    vehicleType: userData['vehicle'],
+                                    vehicleTemplateNumber:
+                                        userData['vehicleTemplate'],
+                                    purposeOfTravel:
+                                        userData['purposeOfTravel'],
+                                    dateOfTravel: userData['dateOfTravel'],
+                                    returnDateAndTime:
+                                        '${userData['returnDate']} ${userData['returnTime']}');
+                              });
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: TextBold(
+                                      text: 'Return confirmation',
+                                      fontSize: 18,
+                                      color: Colors.black),
+                                  content: TextRegular(
+                                      text: 'Returned the vehicle?',
+                                      fontSize: 14,
+                                      color: Colors.black),
+                                  actions: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: TextRegular(
+                                              text: 'Close',
+                                              fontSize: 12,
+                                              color: Colors.grey),
+                                        ),
+                                        TextButton(
+                                          onPressed: () async {
+                                            await FirebaseFirestore.instance
+                                                .collection('Request')
+                                                .doc(data.docs[index].id)
+                                                .update({'status': 'Returned'});
+                                            Navigator.pop(context);
+                                          },
+                                          child: TextBold(
+                                              text: 'Return',
+                                              fontSize: 14,
+                                              color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              });
+                        }
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
