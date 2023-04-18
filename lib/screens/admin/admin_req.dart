@@ -3,6 +3,8 @@ import 'package:car_rental/widgets/text_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/form_into_dialog.dart';
+
 class AdminRequest extends StatelessWidget {
   const AdminRequest({Key? key}) : super(key: key);
 
@@ -50,6 +52,10 @@ class AdminRequest extends StatelessWidget {
                     return DataTable(columns: [
                       DataColumn(
                         label: TextBold(
+                            text: '', fontSize: 18, color: Colors.black),
+                      ),
+                      DataColumn(
+                        label: TextBold(
                             text: 'Name', fontSize: 18, color: Colors.black),
                       ),
                       DataColumn(
@@ -69,6 +75,35 @@ class AdminRequest extends StatelessWidget {
                     ], rows: [
                       for (int i = 0; i < data.docs.length; i++)
                         DataRow(cells: [
+                          DataCell(
+                            IconButton(
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return VehicleRequestDialog(
+                                          name: data.docs[i]['name'],
+                                          contactNumber: data.docs[i]
+                                              ['contactNumber'],
+                                          organizationName: data.docs[i]
+                                              ['organization'],
+                                          vehicleType: data.docs[i]['vehicle'],
+                                          vehicleTemplateNumber: data.docs[i]
+                                              ['vehicleTemplate'],
+                                          purposeOfTravel: data.docs[i]
+                                              ['purposeOfTravel'],
+                                          dateOfTravel: data.docs[i]
+                                              ['dateOfTravel'],
+                                          returnDateAndTime:
+                                              '${data.docs[i]['returnDate']} ${data.docs[i]['returnTime']}');
+                                    });
+                              },
+                              icon: const Icon(
+                                Icons.remove_red_eye_outlined,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
                           DataCell(
                             TextRegular(
                                 text: data.docs[i]['name'],
@@ -91,7 +126,7 @@ class AdminRequest extends StatelessWidget {
                             Row(
                               children: [
                                 ButtonWidget(
-                                    width: 150,
+                                    width: 120,
                                     height: 40,
                                     fontSize: 12,
                                     color: Colors.green,
@@ -106,7 +141,7 @@ class AdminRequest extends StatelessWidget {
                                   width: 10,
                                 ),
                                 ButtonWidget(
-                                    width: 150,
+                                    width: 120,
                                     height: 40,
                                     fontSize: 12,
                                     color: Colors.red,
