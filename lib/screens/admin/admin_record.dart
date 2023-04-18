@@ -30,7 +30,7 @@ class AdminRecord extends StatelessWidget {
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('Request')
-                    .where('status', isEqualTo: 'Approved')
+                    .where('status', isNotEqualTo: 'Pending')
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -120,7 +120,7 @@ class AdminRecord extends StatelessWidget {
                           ),
                           DataCell(
                             TextRegular(
-                                text: 'Approved',
+                                text: data.docs[i]['status'],
                                 fontSize: 14,
                                 color: Colors.green),
                           ),
