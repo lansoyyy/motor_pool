@@ -15,9 +15,7 @@ Future addReq(
     arrivalTime,
     returnDate,
     returnTime) async {
-  final docUser = FirebaseFirestore.instance
-      .collection('Request')
-      .doc(FirebaseAuth.instance.currentUser!.uid);
+  final docUser = FirebaseFirestore.instance.collection('Request').doc();
 
   final json = {
     'name': name,

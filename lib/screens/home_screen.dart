@@ -2,6 +2,7 @@ import 'package:car_rental/screens/about_us.dart';
 import 'package:car_rental/screens/admin/admin_map.dart';
 import 'package:car_rental/screens/admin/admin_record.dart';
 import 'package:car_rental/screens/admin/admin_req.dart';
+import 'package:car_rental/screens/admin/vehicle_out_tab.dart';
 import 'package:car_rental/screens/tabs/notif_tab.dart';
 import 'package:car_rental/screens/tabs/request_tab.dart';
 import 'package:car_rental/screens/vehicles_screen.dart';
@@ -22,7 +23,7 @@ class HomeScreen extends StatelessWidget {
     // .doc(FirebaseAuth.instance.currentUser!.uid)
     // .snapshots();
     return DefaultTabController(
-      length: 2,
+      length: userType == UserType.admin ? 3 : 2,
       child: StreamBuilder<Object>(
           stream: null,
           builder: (context, snapshot) {
@@ -78,6 +79,10 @@ class HomeScreen extends StatelessWidget {
                                         ? 'Notification'
                                         : 'Record',
                                   ),
+                                  Tab(
+                                      text: userType == UserType.admin
+                                          ? 'Vehicle Out'
+                                          : ''),
                                 ]),
                           ),
                           const SizedBox(
@@ -90,10 +95,13 @@ class HomeScreen extends StatelessWidget {
                         child: TabBarView(children: [
                           userType == UserType.user
                               ? const RequestTab()
-                              : const AdminRequest(),
+                              : AdminRequest(),
                           userType == UserType.user
                               ? const NotifTab()
-                              : AdminRecord()
+                              : AdminRecord(),
+                          userType == UserType.admin
+                              ? VehicleOutTab()
+                              : const SizedBox()
                         ]),
                       )),
                       Align(
@@ -129,7 +137,7 @@ class HomeScreen extends StatelessWidget {
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  AdminMap()));
+                                                  const AdminMap()));
                                     },
                                     child: TextBold(
                                         text: 'Map of Vehicles',

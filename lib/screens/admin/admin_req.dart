@@ -6,14 +6,19 @@ import 'package:flutter/material.dart';
 import '../../widgets/form_into_dialog.dart';
 
 class AdminRequest extends StatelessWidget {
-  const AdminRequest({Key? key}) : super(key: key);
+  
+
+
+    final scrollController = ScrollController();
+
+  AdminRequest({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(350, 20, 350, 20),
       child: Container(
-        width: 300,
+        width: 500,
         color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,138 +31,146 @@ class AdminRequest extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            SingleChildScrollView(
-              child: StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('Request')
-                      .where('status', isEqualTo: 'Pending')
-                      .snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError) {
-                      print('error');
-                      return const Center(child: Text('Error'));
-                    }
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Padding(
-                        padding: EdgeInsets.only(top: 50),
-                        child: Center(
-                            child: CircularProgressIndicator(
-                          color: Colors.black,
-                        )),
-                      );
-                    }
-
-                    final data = snapshot.requireData;
-                    return DataTable(columns: [
-                      DataColumn(
-                        label: TextBold(
-                            text: '', fontSize: 18, color: Colors.black),
-                      ),
-                      DataColumn(
-                        label: TextBold(
-                            text: 'Name', fontSize: 18, color: Colors.black),
-                      ),
-                      DataColumn(
-                        label: TextBold(
-                            text: 'Vehicle', fontSize: 18, color: Colors.black),
-                      ),
-                      DataColumn(
-                        label: TextBold(
-                            text: 'Destination',
-                            fontSize: 18,
-                            color: Colors.black),
-                      ),
-                      DataColumn(
-                        label: TextBold(
-                            text: '', fontSize: 18, color: Colors.black),
-                      ),
-                    ], rows: [
-                      for (int i = 0; i < data.docs.length; i++)
-                        DataRow(cells: [
-                          DataCell(
-                            IconButton(
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return VehicleRequestDialog(
-                                          name: data.docs[i]['name'],
-                                          contactNumber: data.docs[i]
-                                              ['contactNumber'],
-                                          organizationName: data.docs[i]
-                                              ['organization'],
-                                          vehicleType: data.docs[i]['vehicle'],
-                                          vehicleTemplateNumber: data.docs[i]
-                                              ['vehicleTemplate'],
-                                          purposeOfTravel: data.docs[i]
-                                              ['purposeOfTravel'],
-                                          dateOfTravel: data.docs[i]
-                                              ['dateOfTravel'],
-                                          returnDateAndTime:
-                                              '${data.docs[i]['returnDate']} ${data.docs[i]['returnTime']}');
-                                    });
-                              },
-                              icon: const Icon(
-                                Icons.remove_red_eye_outlined,
-                                color: Colors.grey,
-                              ),
-                            ),
+          Scrollbar(
+                                        controller: scrollController,
+                                        child: SingleChildScrollView(
+                                          controller: scrollController,
+               scrollDirection: Axis.horizontal,
+                                          child: SingleChildScrollView(
+                                            scrollDirection: Axis.vertical,
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('Request')
+                          .where('status', isEqualTo: 'Pending')
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasError) {
+                          print('error');
+                          return const Center(child: Text('Error'));
+                        }
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Padding(
+                            padding: EdgeInsets.only(top: 50),
+                            child: Center(
+                                child: CircularProgressIndicator(
+                              color: Colors.black,
+                            )),
+                          );
+                        }
+              
+                        final data = snapshot.requireData;
+                        return DataTable(columns: [
+                          DataColumn(
+                            label: TextBold(
+                                text: '', fontSize: 18, color: Colors.black),
                           ),
-                          DataCell(
-                            TextRegular(
-                                text: data.docs[i]['name'],
-                                fontSize: 14,
-                                color: Colors.grey),
+                          DataColumn(
+                            label: TextBold(
+                                text: 'Name', fontSize: 18, color: Colors.black),
                           ),
-                          DataCell(
-                            TextRegular(
-                                text: data.docs[i]['vehicle'],
-                                fontSize: 14,
-                                color: Colors.grey),
+                          DataColumn(
+                            label: TextBold(
+                                text: 'Vehicle', fontSize: 18, color: Colors.black),
                           ),
-                          DataCell(
-                            TextRegular(
-                                text: data.docs[i]['destination'],
-                                fontSize: 14,
-                                color: Colors.grey),
+                          DataColumn(
+                            label: TextBold(
+                                text: 'Destination',
+                                fontSize: 18,
+                                color: Colors.black),
                           ),
-                          DataCell(
-                            Row(
-                              children: [
-                                ButtonWidget(
-                                    width: 120,
-                                    height: 40,
-                                    fontSize: 12,
-                                    color: Colors.green,
-                                    label: 'Approve',
-                                    onPressed: () async {
-                                      await FirebaseFirestore.instance
-                                          .collection('Request')
-                                          .doc(data.docs[i].id)
-                                          .update({'status': 'Approved'});
-                                    }),
-                                const SizedBox(
-                                  width: 10,
+                          DataColumn(
+                            label: TextBold(
+                                text: '', fontSize: 18, color: Colors.black),
+                          ),
+                        ], rows: [
+                          for (int i = 0; i < data.docs.length; i++)
+                            DataRow(cells: [
+                              DataCell(
+                                IconButton(
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return VehicleRequestDialog(
+                                              name: data.docs[i]['name'],
+                                              contactNumber: data.docs[i]
+                                                  ['contactNumber'],
+                                              organizationName: data.docs[i]
+                                                  ['organization'],
+                                              vehicleType: data.docs[i]['vehicle'],
+                                              vehicleTemplateNumber: data.docs[i]
+                                                  ['vehicleTemplate'],
+                                              purposeOfTravel: data.docs[i]
+                                                  ['purposeOfTravel'],
+                                              dateOfTravel: data.docs[i]
+                                                  ['dateOfTravel'],
+                                              returnDateAndTime:
+                                                  '${data.docs[i]['returnDate']} ${data.docs[i]['returnTime']}');
+                                        });
+                                  },
+                                  icon: const Icon(
+                                    Icons.remove_red_eye_outlined,
+                                    color: Colors.grey,
+                                  ),
                                 ),
-                                ButtonWidget(
-                                    width: 120,
-                                    height: 40,
-                                    fontSize: 12,
-                                    color: Colors.red,
-                                    label: 'Decline',
-                                    onPressed: () async {
-                                      await FirebaseFirestore.instance
-                                          .collection('Request')
-                                          .doc(data.docs[i].id)
-                                          .update({'status': 'Declined'});
-                                    })
-                              ],
-                            ),
-                          ),
-                        ])
-                    ]);
-                  }),
+                              ),
+                              DataCell(
+                                TextRegular(
+                                    text: data.docs[i]['name'],
+                                    fontSize: 14,
+                                    color: Colors.grey),
+                              ),
+                              DataCell(
+                                TextRegular(
+                                    text: data.docs[i]['vehicle'],
+                                    fontSize: 14,
+                                    color: Colors.grey),
+                              ),
+                              DataCell(
+                                TextRegular(
+                                    text: data.docs[i]['destination'],
+                                    fontSize: 14,
+                                    color: Colors.grey),
+                              ),
+                              DataCell(
+                                Row(
+                                  children: [
+                                    ButtonWidget(
+                                        width: 120,
+                                        height: 40,
+                                        fontSize: 12,
+                                        color: Colors.green,
+                                        label: 'Approve',
+                                        onPressed: () async {
+                                          await FirebaseFirestore.instance
+                                              .collection('Request')
+                                              .doc(data.docs[i].id)
+                                              .update({'status': 'Approved'});
+                                        }),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    ButtonWidget(
+                                        width: 120,
+                                        height: 40,
+                                        fontSize: 12,
+                                        color: Colors.red,
+                                        label: 'Decline',
+                                        onPressed: () async {
+                                          await FirebaseFirestore.instance
+                                              .collection('Request')
+                                              .doc(data.docs[i].id)
+                                              .update({'status': 'Declined'});
+                                        })
+                                  ],
+                                ),
+                              ),
+                            ])
+                        ]);
+                      }),
+                ),
+              ),
             ),
           ],
         ),

@@ -60,7 +60,7 @@ class NotifTab extends StatelessWidget {
                                     returnDateAndTime:
                                         '${userData['returnDate']} ${userData['returnTime']}');
                               });
-                        } else {
+                        } else if (data.docs[index]['status'] == 'Approved') {
                           showDialog(
                               context: context,
                               builder: (context) {
@@ -105,6 +105,8 @@ class NotifTab extends StatelessWidget {
                                   ],
                                 );
                               });
+                        } else {
+                          // When the vehicle is returned
                         }
                       },
                       child: Card(
