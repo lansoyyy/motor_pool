@@ -39,13 +39,14 @@ class AdminMapState extends State<AdminMap> {
       ),
       body: FlutterMap(
         options: MapOptions(
-          center: LatLng(51.509364, -0.128928),
+          center: LatLng(8.130604, 125.127655),
           zoom: 9.2,
         ),
-        children: const [
-          // TileLayer(
-          //   urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', mapState: null, options: null, stream: null,
-          // ),
+        children: [
+          TileLayer(
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            userAgentPackageName: 'com.example.app',
+          ),
         ],
       ),
     );
