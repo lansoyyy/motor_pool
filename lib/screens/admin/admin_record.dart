@@ -38,7 +38,7 @@ class AdminRecord extends StatelessWidget {
                   child: StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection('Request')
-                          .where('status', isEqualTo: 'Completed')
+                          .where('status', isEqualTo: 'Returned')
                           .snapshots(),
                       builder: (BuildContext context,
                           AsyncSnapshot<QuerySnapshot> snapshot) {
