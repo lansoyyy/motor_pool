@@ -66,6 +66,10 @@ class VehiclesScreen extends StatelessWidget {
                             height: 20,
                           ),
                           Image.network(
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.network(
+                                  'https://www.pngitem.com/pimgs/m/287-2876158_not-available-hd-png-download.png');
+                            },
                             cars[index].imageUrl,
                             height: 150,
                           ),
