@@ -33,7 +33,8 @@ Future addReq(
     'returnTime': returnTime,
     'status': 'Pending',
     'dateTime': DateTime.now(),
-    'userId': FirebaseAuth.instance.currentUser!.uid
+    'userId': FirebaseAuth.instance.currentUser!.uid,
+    'km': 0
   };
 
   await docUser.set(json);

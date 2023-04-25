@@ -1,12 +1,15 @@
 import 'package:car_rental/widgets/form_into_dialog.dart';
 import 'package:car_rental/widgets/text_widget.dart';
+import 'package:car_rental/widgets/textfield_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class NotifTab extends StatelessWidget {
-  const NotifTab({Key? key}) : super(key: key);
+  final odoController = TextEditingController();
+
+  NotifTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -69,10 +72,15 @@ class NotifTab extends StatelessWidget {
                                       text: 'Return confirmation',
                                       fontSize: 18,
                                       color: Colors.black),
-                                  content: TextRegular(
-                                      text: 'Returned the vehicle?',
-                                      fontSize: 14,
-                                      color: Colors.black),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      TextFieldWidget(
+                                          label:
+                                              'Enter distance travelled (odometer)',
+                                          controller: odoController),
+                                    ],
+                                  ),
                                   actions: [
                                     Row(
                                       mainAxisAlignment:
@@ -92,7 +100,12 @@ class NotifTab extends StatelessWidget {
                                             await FirebaseFirestore.instance
                                                 .collection('Request')
                                                 .doc(data.docs[index].id)
-                                                .update({'status': 'Returned'});
+                                                .update({
+                                              'status': 'Returned',
+                                              'km': int.parse(
+                                                      odoController.text) -
+                                                  1000
+                                            });
                                             Navigator.pop(context);
                                           },
                                           child: TextBold(

@@ -80,13 +80,13 @@ class AdminRecord extends StatelessWidget {
                             ),
                             DataColumn(
                               label: TextBold(
-                                  text: 'Total Distance\nTravelled',
+                                  text: 'Total Distance\nTravelled (km)',
                                   fontSize: 18,
                                   color: Colors.black),
                             ),
                             DataColumn(
                               label: TextBold(
-                                  text: 'Total Fuel\nUsed',
+                                  text: 'Total Fuel\nUsed (L)',
                                   fontSize: 18,
                                   color: Colors.black),
                             ),
@@ -119,13 +119,15 @@ class AdminRecord extends StatelessWidget {
                                 ),
                                 DataCell(
                                   TextRegular(
-                                      text: 'Not available',
+                                      text:
+                                          '${data.docs[i]['km'].toString()} km',
                                       fontSize: 14,
                                       color: Colors.grey),
                                 ),
                                 DataCell(
                                   TextRegular(
-                                      text: 'Not available',
+                                      text:
+                                          '${(0.068 * data.docs[i]['km']).toString()} L',
                                       fontSize: 14,
                                       color: Colors.grey),
                                 ),

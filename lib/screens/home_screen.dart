@@ -97,7 +97,7 @@ class HomeScreen extends StatelessWidget {
                               ? const RequestTab()
                               : AdminRequest(),
                           userType == UserType.user
-                              ? const NotifTab()
+                              ? NotifTab()
                               : AdminRecord(),
                           userType == UserType.admin
                               ? VehicleOutTab()
