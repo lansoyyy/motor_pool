@@ -62,7 +62,10 @@ class _RequestTabState extends State<RequestTab> {
     }
   }
 
+  int dropValue = 0;
+
   String _selectedItem = 'Toyota Fortuner';
+  String _selectedPlate = 'A2 L731';
 
   final List<String> _items = [
     'Toyota Fortuner',
@@ -78,6 +81,22 @@ class _RequestTabState extends State<RequestTab> {
     'Hino Bus New',
     'Hyundai County',
     'Willys Jeep'
+  ];
+
+  final List<String> _plates = [
+    'A2 L731',
+    'SLB 148',
+    'S7D 456',
+    'SJF 990',
+    'SJF 961',
+    'AO R157',
+    'B9S 557',
+    'A2Q 223',
+    'SFP 162',
+    'LAH 5540',
+    'LAB 4405',
+    'GAD 8218',
+    'SBE 488'
   ];
 
   @override
@@ -323,29 +342,27 @@ class _RequestTabState extends State<RequestTab> {
                         height: 35,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: DropdownButton<String>(
-                            underline: Container(color: Colors.transparent),
-                            value: _selectedItem,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedItem = value!;
-                              });
-                            },
-                            items: _items.map((item) {
-                              return DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(item),
-                              );
-                            }).toList(),
-                          ),
+                          child: DropdownButton(
+                              underline: Container(color: Colors.transparent),
+                              value: dropValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  dropValue = int.parse(value.toString());
+                                });
+                              },
+                              items: [
+                                for (int i = 0; i < _items.length; i++)
+                                  DropdownMenuItem(
+                                    onTap: () {
+                                      _selectedItem = _items[i];
+                                      _selectedPlate = _plates[i];
+                                    },
+                                    value: i,
+                                    child: Text(_items[i]),
+                                  )
+                              ]),
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFieldWidget(
-                          label: 'Motor Vehicle Template Number',
-                          controller: vehicleTemplateController),
                       const SizedBox(
                         height: 10,
                       ),
@@ -453,7 +470,7 @@ class _RequestTabState extends State<RequestTab> {
                                 organizationController.text,
                                 contactNumberController.text,
                                 purposeOfTravelController.text,
-                                vehicleTemplateController.text,
+                                _selectedPlate,
                                 _selectedItem,
                                 dateOfTravel,
                                 departureTime,

@@ -3,6 +3,7 @@ import 'package:car_rental/screens/admin/admin_map.dart';
 import 'package:car_rental/screens/admin/admin_record.dart';
 import 'package:car_rental/screens/admin/admin_req.dart';
 import 'package:car_rental/screens/admin/vehicle_out_tab.dart';
+import 'package:car_rental/screens/auth/login_screen.dart';
 import 'package:car_rental/screens/tabs/notif_tab.dart';
 import 'package:car_rental/screens/tabs/request_tab.dart';
 import 'package:car_rental/screens/vehicles_screen.dart';
@@ -84,6 +85,53 @@ class HomeScreen extends StatelessWidget {
                                           ? 'Vehicle Out'
                                           : ''),
                                 ]),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                        title: TextBold(
+                                            text: 'Logout Confirmation',
+                                            color: Colors.black,
+                                            fontSize: 14),
+                                        content: TextRegular(
+                                            text:
+                                                'Are you sure you want to logout?',
+                                            color: Colors.black,
+                                            fontSize: 16),
+                                        actions: <Widget>[
+                                          MaterialButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(true),
+                                            child: TextBold(
+                                                text: 'Close',
+                                                color: Colors.black,
+                                                fontSize: 14),
+                                          ),
+                                          MaterialButton(
+                                            onPressed: () async {
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              LoginScreen()));
+                                            },
+                                            child: TextBold(
+                                                text: 'Continue',
+                                                color: Colors.black,
+                                                fontSize: 14),
+                                          ),
+                                        ],
+                                      ));
+                            },
+                            icon: const Icon(
+                              Icons.logout,
+                              color: Colors.white,
+                            ),
                           ),
                           const SizedBox(
                             width: 20,
