@@ -27,14 +27,13 @@ class LoginScreen extends StatelessWidget {
   void logInWithGoogle(context) async {
     try {
       final googleSignInAccount = await _googleSignIn.signIn();
-      if (googleSignInAccount == null) {
-        return;
-      }
-      final googleSignInAuth = await googleSignInAccount.authentication;
+
+      final googleSignInAuth = await googleSignInAccount!.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuth.accessToken,
         idToken: googleSignInAuth.idToken,
       );
+
       await FirebaseAuth.instance.signInWithCredential(credential);
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const HomeScreen(
