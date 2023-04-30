@@ -6,6 +6,7 @@ import 'package:car_rental/utils/constant.dart';
 import 'package:car_rental/widgets/text_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../widgets/button_widget.dart';
@@ -20,6 +21,29 @@ class LoginScreen extends StatelessWidget {
   final newNameController = TextEditingController();
 
   LoginScreen({super.key});
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+
+  void logInWithGoogle(context) async {
+    try {
+      final googleSignInAccount = await _googleSignIn.signIn();
+      if (googleSignInAccount == null) {
+        return;
+      }
+      final googleSignInAuth = await googleSignInAccount.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuth.accessToken,
+        idToken: googleSignInAuth.idToken,
+      );
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const HomeScreen(
+                userType: UserType.user,
+              )));
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -264,7 +288,9 @@ class LoginScreen extends StatelessWidget {
                             minWidth: 225,
                             height: 45,
                             color: Colors.white,
-                            onPressed: () {},
+                            onPressed: () {
+                              logInWithGoogle(context);
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
