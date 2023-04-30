@@ -226,6 +226,59 @@ class LoginScreen extends StatelessWidget {
                                 text: 'Register',
                                 fontSize: 14,
                                 color: Colors.black)),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                width: 100,
+                                child: Divider(),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              TextBold(
+                                  text: 'or',
+                                  fontSize: 14,
+                                  color: Colors.black),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              const SizedBox(
+                                width: 100,
+                                child: Divider(),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        MaterialButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            minWidth: 225,
+                            height: 45,
+                            color: Colors.white,
+                            onPressed: () {},
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset('assets/images/google.png',
+                                    height: 25),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                TextRegular(
+                                    text: 'Signup with Google',
+                                    fontSize: 14,
+                                    color: Colors.black),
+                              ],
+                            ))
                       ],
                     ),
                   ),
