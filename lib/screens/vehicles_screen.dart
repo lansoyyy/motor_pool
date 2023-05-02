@@ -84,6 +84,14 @@ class VehiclesScreen extends StatelessWidget {
                             height: 10,
                           ),
                           TextBold(
+                              text:
+                                  'Plate Number: ${cars[index].plateNumber.toString()}',
+                              fontSize: 12,
+                              color: Colors.black),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextBold(
                               text: 'Year: ${cars[index].year.toString()}',
                               fontSize: 12,
                               color: Colors.black),
