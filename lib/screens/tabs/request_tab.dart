@@ -105,13 +105,13 @@ class _RequestTabState extends State<RequestTab> {
       padding:
           const EdgeInsets.only(left: 300, right: 300, top: 50, bottom: 50),
       child: Card(
+        color: Colors.white.withOpacity(0.75),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         elevation: 20,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
             borderRadius: BorderRadius.circular(10),
           ),
           height: 250,
@@ -333,7 +333,7 @@ class _RequestTabState extends State<RequestTab> {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Colors.white.withOpacity(0.75),
                             border: Border.all(
                               color: Colors.black,
                             ),
