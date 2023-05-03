@@ -3,9 +3,13 @@ import 'package:car_rental/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../data/vehicles.dart';
+import '../utils/constant.dart';
+import 'auth/login_screen.dart';
 
 class VehiclesScreen extends StatelessWidget {
-  const VehiclesScreen({Key? key}) : super(key: key);
+  final AboutusUsage? usage;
+
+  const VehiclesScreen({super.key, this.usage = AboutusUsage.homePage});
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +24,13 @@ class VehiclesScreen extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+              if (usage == AboutusUsage.loginPage) {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+              } else {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const HomeScreen()));
+              }
             },
             icon: const Icon(
               Icons.arrow_back_ios,

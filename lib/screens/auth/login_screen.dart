@@ -331,10 +331,11 @@ class LoginScreen extends StatelessWidget {
                             color: Colors.white)),
                     TextButton(
                         onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const VehiclesScreen()));
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
+                                  builder: (context) => const VehiclesScreen(
+                                        usage: AboutusUsage.loginPage,
+                                      )));
                         },
                         child: TextBold(
                             text: 'Our vehicles',
