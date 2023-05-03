@@ -12,7 +12,7 @@ class AdminRecord extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(250, 20, 250, 20),
       child: Container(
         width: 300,
-        color: Colors.white,
+        color: Colors.white.withOpacity(0.8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

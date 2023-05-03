@@ -16,7 +16,7 @@ class VehicleOutTab extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(350, 20, 350, 20),
       child: Container(
         width: 500,
-        color: Colors.white,
+        color: Colors.white.withOpacity(0.8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

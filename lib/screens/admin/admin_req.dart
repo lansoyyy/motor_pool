@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 import '../../widgets/form_into_dialog.dart';
 
 class AdminRequest extends StatelessWidget {
-  
-
-
-    final scrollController = ScrollController();
+  final scrollController = ScrollController();
 
   AdminRequest({super.key});
 
@@ -19,7 +16,7 @@ class AdminRequest extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(350, 20, 350, 20),
       child: Container(
         width: 500,
-        color: Colors.white,
+        color: Colors.white.withOpacity(0.8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -31,13 +28,13 @@ class AdminRequest extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-          Scrollbar(
-                                        controller: scrollController,
-                                        child: SingleChildScrollView(
-                                          controller: scrollController,
-               scrollDirection: Axis.horizontal,
-                                          child: SingleChildScrollView(
-                                            scrollDirection: Axis.vertical,
+            Scrollbar(
+              controller: scrollController,
+              child: SingleChildScrollView(
+                controller: scrollController,
+                scrollDirection: Axis.horizontal,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
                   child: StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection('Request')
@@ -49,7 +46,8 @@ class AdminRequest extends StatelessWidget {
                           print('error');
                           return const Center(child: Text('Error'));
                         }
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const Padding(
                             padding: EdgeInsets.only(top: 50),
                             child: Center(
@@ -58,7 +56,7 @@ class AdminRequest extends StatelessWidget {
                             )),
                           );
                         }
-              
+
                         final data = snapshot.requireData;
                         return DataTable(columns: [
                           DataColumn(
@@ -67,11 +65,15 @@ class AdminRequest extends StatelessWidget {
                           ),
                           DataColumn(
                             label: TextBold(
-                                text: 'Name', fontSize: 18, color: Colors.black),
+                                text: 'Name',
+                                fontSize: 18,
+                                color: Colors.black),
                           ),
                           DataColumn(
                             label: TextBold(
-                                text: 'Vehicle', fontSize: 18, color: Colors.black),
+                                text: 'Vehicle',
+                                fontSize: 18,
+                                color: Colors.black),
                           ),
                           DataColumn(
                             label: TextBold(
@@ -98,9 +100,10 @@ class AdminRequest extends StatelessWidget {
                                                   ['contactNumber'],
                                               organizationName: data.docs[i]
                                                   ['organization'],
-                                              vehicleType: data.docs[i]['vehicle'],
-                                              vehicleTemplateNumber: data.docs[i]
-                                                  ['vehicleTemplate'],
+                                              vehicleType: data.docs[i]
+                                                  ['vehicle'],
+                                              vehicleTemplateNumber: data
+                                                  .docs[i]['vehicleTemplate'],
                                               purposeOfTravel: data.docs[i]
                                                   ['purposeOfTravel'],
                                               dateOfTravel: data.docs[i]
