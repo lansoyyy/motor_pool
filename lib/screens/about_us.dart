@@ -1,8 +1,12 @@
+import 'package:car_rental/screens/auth/login_screen.dart';
 import 'package:car_rental/screens/home_screen.dart';
+import 'package:car_rental/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class AboutUsPage extends StatelessWidget {
-  const AboutUsPage({Key? key}) : super(key: key);
+  final AboutusUsage? usage;
+
+  const AboutUsPage({super.key, this.usage = AboutusUsage.homePage});
 
   @override
   Widget build(BuildContext context) {
@@ -10,8 +14,13 @@ class AboutUsPage extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+              if (usage == AboutusUsage.loginPage) {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+              } else {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const HomeScreen()));
+              }
             },
             icon: const Icon(
               Icons.arrow_back_ios,

@@ -319,9 +319,11 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     TextButton(
                         onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => const AboutUsPage()));
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
+                                  builder: (context) => const AboutUsPage(
+                                        usage: AboutusUsage.loginPage,
+                                      )));
                         },
                         child: TextBold(
                             text: 'About us',
