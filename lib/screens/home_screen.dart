@@ -159,10 +159,9 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const AboutUsPage()));
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AboutUsPage()));
                                 },
                                 child: TextBold(
                                     text: 'About us',
@@ -170,10 +169,9 @@ class HomeScreen extends StatelessWidget {
                                     color: Colors.white)),
                             TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const VehiclesScreen()));
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const VehiclesScreen()));
                                 },
                                 child: TextBold(
                                     text: 'Our vehicles',

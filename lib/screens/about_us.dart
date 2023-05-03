@@ -1,5 +1,4 @@
 import 'package:car_rental/screens/auth/login_screen.dart';
-import 'package:car_rental/screens/home_screen.dart';
 import 'package:car_rental/utils/constant.dart';
 import 'package:flutter/material.dart';
 
@@ -18,8 +17,7 @@ class AboutUsPage extends StatelessWidget {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => LoginScreen()));
               } else {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const HomeScreen()));
+                Navigator.of(context).pop();
               }
             },
             icon: const Icon(

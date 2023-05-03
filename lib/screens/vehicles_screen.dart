@@ -1,4 +1,3 @@
-import 'package:car_rental/screens/home_screen.dart';
 import 'package:car_rental/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -28,8 +27,7 @@ class VehiclesScreen extends StatelessWidget {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => LoginScreen()));
               } else {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const HomeScreen()));
+                Navigator.of(context).pop();
               }
             },
             icon: const Icon(
