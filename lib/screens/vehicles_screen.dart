@@ -13,13 +13,6 @@ class VehiclesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: const Color(0xff6571E0),
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          onPressed: () {}),
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
