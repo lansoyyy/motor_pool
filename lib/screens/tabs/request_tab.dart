@@ -247,7 +247,7 @@ class _RequestTabState extends State<RequestTab> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextRegular(
-                                text: 'Expecture Departure Time',
+                                text: 'Expected Departure Time',
                                 fontSize: 12,
                                 color: Colors.black),
                             const SizedBox(
@@ -294,7 +294,7 @@ class _RequestTabState extends State<RequestTab> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextRegular(
-                                text: 'Expecture Arrival Time',
+                                text: 'Expected Arrival Time',
                                 fontSize: 12,
                                 color: Colors.black),
                             const SizedBox(
@@ -386,7 +386,7 @@ class _RequestTabState extends State<RequestTab> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextRegular(
-                                text: 'Expecture Return Date',
+                                text: 'Expected Return Date',
                                 fontSize: 12,
                                 color: Colors.black),
                             const SizedBox(
@@ -432,7 +432,7 @@ class _RequestTabState extends State<RequestTab> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextRegular(
-                                text: 'Expecture Return Time',
+                                text: 'Expected Return Time',
                                 fontSize: 12,
                                 color: Colors.black),
                             const SizedBox(
