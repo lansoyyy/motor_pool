@@ -95,31 +95,61 @@ class NotifTab extends StatelessWidget {
                                               fontSize: 12,
                                               color: Colors.grey),
                                         ),
-                                        TextButton(
-                                          onPressed: () async {
-                                            await FirebaseFirestore.instance
-                                                .collection('Request')
-                                                .doc(data.docs[index].id)
-                                                .update({
-                                              'status': 'Returned',
-                                              'km': int.parse(
-                                                      odoController.text) -
-                                                  1000
-                                            });
-                                            await FirebaseFirestore.instance
-                                                .collection('Tools')
-                                                .doc('cars')
-                                                .update({
-                                              'vehicles': FieldValue.arrayUnion(
-                                                  [userData['vehicle']]),
-                                            });
-                                            Navigator.pop(context);
-                                          },
-                                          child: TextBold(
-                                              text: 'Return',
-                                              fontSize: 14,
-                                              color: Colors.black),
-                                        ),
+                                        StreamBuilder<QuerySnapshot>(
+                                            stream: FirebaseFirestore.instance
+                                                .collection('Cars')
+                                                .snapshots(),
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot<QuerySnapshot>
+                                                    snapshot) {
+                                              if (snapshot.hasError) {
+                                                print(snapshot.error);
+                                                return const Center(
+                                                    child: Text('Error'));
+                                              }
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return const Padding(
+                                                  padding:
+                                                      EdgeInsets.only(top: 50),
+                                                  child: Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                    color: Colors.black,
+                                                  )),
+                                                );
+                                              }
+
+                                              final newData =
+                                                  snapshot.requireData;
+                                              return TextButton(
+                                                onPressed: () async {
+                                                  await FirebaseFirestore
+                                                      .instance
+                                                      .collection('Request')
+                                                      .doc(data.docs[index].id)
+                                                      .update({
+                                                    'status': 'Returned',
+                                                    'km': int.parse(
+                                                            odoController
+                                                                .text) -
+                                                        1000
+                                                  });
+                                                  await FirebaseFirestore
+                                                      .instance
+                                                      .collection('Cars')
+                                                      .doc(userData['vehicle'])
+                                                      .update({
+                                                    'isAvailable': true
+                                                  });
+                                                  Navigator.pop(context);
+                                                },
+                                                child: TextBold(
+                                                    text: 'Return',
+                                                    fontSize: 14,
+                                                    color: Colors.black),
+                                              );
+                                            }),
                                       ],
                                     ),
                                   ],
