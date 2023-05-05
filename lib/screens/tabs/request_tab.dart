@@ -86,9 +86,6 @@ class _RequestTabState extends State<RequestTab> {
 
   int index = 0;
 
-  final Stream<DocumentSnapshot> userData =
-      FirebaseFirestore.instance.collection('Tools').doc('cars').snapshots();
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -332,21 +329,29 @@ class _RequestTabState extends State<RequestTab> {
                         height: 35,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: StreamBuilder<DocumentSnapshot>(
-                              stream: userData,
-                              builder: (context,
-                                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                                if (!snapshot.hasData) {
-                                  return const Center(child: Text('Loading'));
-                                } else if (snapshot.hasError) {
-                                  return const Center(
-                                      child: Text('Something went wrong'));
-                                } else if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
+                          child: StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection('Cars')
+                                  .where('isAvailable', isEqualTo: true)
+                                  .snapshots(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (snapshot.hasError) {
+                                  print(snapshot.error);
+                                  return const Center(child: Text('Error'));
                                 }
-                                dynamic data = snapshot.data;
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Padding(
+                                    padding: EdgeInsets.only(top: 50),
+                                    child: Center(
+                                        child: CircularProgressIndicator(
+                                      color: Colors.black,
+                                    )),
+                                  );
+                                }
+
+                                final data = snapshot.requireData;
                                 return DropdownButton(
                                     underline:
                                         Container(color: Colors.transparent),
@@ -357,17 +362,17 @@ class _RequestTabState extends State<RequestTab> {
                                       });
                                     },
                                     items: [
-                                      for (int i = 0;
-                                          i < data['vehicles'].length;
-                                          i++)
+                                      for (int i = 0; i < data.docs.length; i++)
                                         DropdownMenuItem(
                                           onTap: () {
-                                            _selectedItem = data['vehicles'][i];
-                                            _selectedPlate = _plates[i];
+                                            _selectedItem =
+                                                data.docs[i]['model'];
+                                            _selectedPlate =
+                                                data.docs[i]['plateNumber'];
                                             index = i;
                                           },
                                           value: i,
-                                          child: Text(data['vehicles'][i]),
+                                          child: Text(data.docs[i]['model']),
                                         )
                                     ]);
                               }),
@@ -470,31 +475,48 @@ class _RequestTabState extends State<RequestTab> {
                       const SizedBox(
                         height: 30,
                       ),
-                      StreamBuilder<DocumentSnapshot>(
-                          stream: userData,
-                          builder: (context,
-                              AsyncSnapshot<DocumentSnapshot> snapshot) {
-                            if (!snapshot.hasData) {
-                              return const Center(child: Text('Loading'));
-                            } else if (snapshot.hasError) {
-                              return const Center(
-                                  child: Text('Something went wrong'));
-                            } else if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
+                      StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('Cars')
+                              .where('isAvailable', isEqualTo: true)
+                              .snapshots(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (snapshot.hasError) {
+                              print(snapshot.error);
+                              return const Center(child: Text('Error'));
                             }
-                            dynamic data = snapshot.data;
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Padding(
+                                padding: EdgeInsets.only(top: 50),
+                                child: Center(
+                                    child: CircularProgressIndicator(
+                                  color: Colors.black,
+                                )),
+                              );
+                            }
+
+                            final data1 = snapshot.requireData;
                             return ButtonWidget(
                                 label: 'Submit',
                                 onPressed: (() async {
+                                  // for (int i = 0; i < cars.length; i++) {
+                                  //   await FirebaseFirestore.instance
+                                  //       .collection('Cars')
+                                  //       .doc(cars[i].model)
+                                  //       .set({
+                                  //     'model': cars[i].model,
+                                  //     'maker': cars[i].make,
+                                  //     'year': cars[i].year,
+                                  //     'plateNumber': cars[i].plateNumber,
+                                  //     'isAvailable': true
+                                  //   });
+                                  // }
                                   await FirebaseFirestore.instance
-                                      .collection('Tools')
-                                      .doc('cars')
-                                      .update({
-                                    'vehicles': FieldValue.arrayRemove(
-                                        [data['vehicles'][index]]),
-                                  });
+                                      .collection('Cars')
+                                      .doc(data1.docs[index].id)
+                                      .update({'isAvailable': false});
                                   addReq(
                                       nameController.text,
                                       addressController.text,
