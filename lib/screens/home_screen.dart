@@ -170,8 +170,9 @@ class HomeScreen extends StatelessWidget {
                             TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const VehiclesScreen()));
+                                      builder: (context) => VehiclesScreen(
+                                            userType: userType,
+                                          )));
                                 },
                                 child: TextBold(
                                     text: 'Our vehicles',
