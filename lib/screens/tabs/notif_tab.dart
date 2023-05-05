@@ -106,6 +106,13 @@ class NotifTab extends StatelessWidget {
                                                       odoController.text) -
                                                   1000
                                             });
+                                            await FirebaseFirestore.instance
+                                                .collection('Tools')
+                                                .doc('cars')
+                                                .update({
+                                              'vehicles': FieldValue.arrayUnion(
+                                                  [userData['vehicle']]),
+                                            });
                                             Navigator.pop(context);
                                           },
                                           child: TextBold(

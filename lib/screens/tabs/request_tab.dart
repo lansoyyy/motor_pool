@@ -2,6 +2,7 @@ import 'package:car_rental/services/add_req.dart';
 import 'package:car_rental/widgets/button_widget.dart';
 import 'package:car_rental/widgets/text_widget.dart';
 import 'package:car_rental/widgets/textfield_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class RequestTab extends StatefulWidget {
@@ -67,22 +68,6 @@ class _RequestTabState extends State<RequestTab> {
   String _selectedItem = 'Toyota Fortuner';
   String _selectedPlate = 'A2 L731';
 
-  final List<String> _items = [
-    'Toyota Fortuner',
-    'Kia Sportage',
-    'Toyota Avanza',
-    'Toyota Innova',
-    'T-Hi-Ace Grandia',
-    'T-Hi-Ace Commuter',
-    'Mitsubishi L300',
-    'Toyota Hilux',
-    'T.T.FX. Revo SR',
-    'Hino Truck Van',
-    'Hino Bus New',
-    'Hyundai County',
-    'Willys Jeep'
-  ];
-
   final List<String> _plates = [
     'A2 L731',
     'SLB 148',
@@ -98,6 +83,11 @@ class _RequestTabState extends State<RequestTab> {
     'GAD 8218',
     'SBE 488'
   ];
+
+  int index = 0;
+
+  final Stream<DocumentSnapshot> userData =
+      FirebaseFirestore.instance.collection('Tools').doc('cars').snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -342,25 +332,45 @@ class _RequestTabState extends State<RequestTab> {
                         height: 35,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: DropdownButton(
-                              underline: Container(color: Colors.transparent),
-                              value: dropValue,
-                              onChanged: (value) {
-                                setState(() {
-                                  dropValue = int.parse(value.toString());
-                                });
-                              },
-                              items: [
-                                for (int i = 0; i < _items.length; i++)
-                                  DropdownMenuItem(
-                                    onTap: () {
-                                      _selectedItem = _items[i];
-                                      _selectedPlate = _plates[i];
+                          child: StreamBuilder<DocumentSnapshot>(
+                              stream: userData,
+                              builder: (context,
+                                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                if (!snapshot.hasData) {
+                                  return const Center(child: Text('Loading'));
+                                } else if (snapshot.hasError) {
+                                  return const Center(
+                                      child: Text('Something went wrong'));
+                                } else if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+                                dynamic data = snapshot.data;
+                                return DropdownButton(
+                                    underline:
+                                        Container(color: Colors.transparent),
+                                    value: dropValue,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        dropValue = int.parse(value.toString());
+                                      });
                                     },
-                                    value: i,
-                                    child: Text(_items[i]),
-                                  )
-                              ]),
+                                    items: [
+                                      for (int i = 0;
+                                          i < data['vehicles'].length;
+                                          i++)
+                                        DropdownMenuItem(
+                                          onTap: () {
+                                            _selectedItem = data['vehicles'][i];
+                                            _selectedPlate = _plates[i];
+                                            index = i;
+                                          },
+                                          value: i,
+                                          child: Text(data['vehicles'][i]),
+                                        )
+                                    ]);
+                              }),
                         ),
                       ),
                       const SizedBox(
@@ -460,38 +470,61 @@ class _RequestTabState extends State<RequestTab> {
                       const SizedBox(
                         height: 30,
                       ),
-                      ButtonWidget(
-                          label: 'Submit',
-                          onPressed: (() {
-                            addReq(
-                                nameController.text,
-                                addressController.text,
-                                destinationController.text,
-                                organizationController.text,
-                                contactNumberController.text,
-                                purposeOfTravelController.text,
-                                _selectedPlate,
-                                _selectedItem,
-                                dateOfTravel,
-                                departureTime,
-                                arrivalTime,
-                                returnDate,
-                                returnTime);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: TextBold(
-                                      text: 'Request sent succesfully!',
-                                      fontSize: 18,
-                                      color: Colors.white)),
-                            );
-                            nameController.clear();
-                            destinationController.clear();
-                            addressController.clear();
-                            organizationController.clear();
-                            contactNumberController.clear();
-                            purposeOfTravelController.clear();
-                            vehicleTemplateController.clear();
-                          }))
+                      StreamBuilder<DocumentSnapshot>(
+                          stream: userData,
+                          builder: (context,
+                              AsyncSnapshot<DocumentSnapshot> snapshot) {
+                            if (!snapshot.hasData) {
+                              return const Center(child: Text('Loading'));
+                            } else if (snapshot.hasError) {
+                              return const Center(
+                                  child: Text('Something went wrong'));
+                            } else if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
+                            dynamic data = snapshot.data;
+                            return ButtonWidget(
+                                label: 'Submit',
+                                onPressed: (() async {
+                                  await FirebaseFirestore.instance
+                                      .collection('Tools')
+                                      .doc('cars')
+                                      .update({
+                                    'vehicles': FieldValue.arrayRemove(
+                                        [data['vehicles'][index]]),
+                                  });
+                                  addReq(
+                                      nameController.text,
+                                      addressController.text,
+                                      destinationController.text,
+                                      organizationController.text,
+                                      contactNumberController.text,
+                                      purposeOfTravelController.text,
+                                      _selectedPlate,
+                                      _selectedItem,
+                                      dateOfTravel,
+                                      departureTime,
+                                      arrivalTime,
+                                      returnDate,
+                                      returnTime);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: TextBold(
+                                            text: 'Request sent succesfully!',
+                                            fontSize: 18,
+                                            color: Colors.white)),
+                                  );
+                                  nameController.clear();
+                                  destinationController.clear();
+                                  addressController.clear();
+                                  organizationController.clear();
+                                  contactNumberController.clear();
+                                  purposeOfTravelController.clear();
+                                  vehicleTemplateController.clear();
+                                }));
+                          })
                     ],
                   ),
                 ),
