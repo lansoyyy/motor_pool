@@ -51,7 +51,7 @@ class VehicleRequestDialog extends StatelessWidget {
                     Row(
                       children: [
                         TextRegular(
-                            text: 'A file as attached',
+                            text: 'A file is attached',
                             fontSize: 14,
                             color: Colors.grey),
                       ],
