@@ -1,4 +1,7 @@
+import 'package:car_rental/widgets/text_widget.dart';
+import 'package:car_rental/widgets/toast_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VehicleRequestDialog extends StatelessWidget {
   final String name;
@@ -9,18 +12,19 @@ class VehicleRequestDialog extends StatelessWidget {
   final String purposeOfTravel;
   final String dateOfTravel;
   final String returnDateAndTime;
+  final String file;
 
-  const VehicleRequestDialog({
-    super.key,
-    required this.name,
-    required this.contactNumber,
-    required this.organizationName,
-    required this.vehicleType,
-    required this.vehicleTemplateNumber,
-    required this.purposeOfTravel,
-    required this.dateOfTravel,
-    required this.returnDateAndTime,
-  });
+  const VehicleRequestDialog(
+      {super.key,
+      required this.name,
+      required this.contactNumber,
+      required this.organizationName,
+      required this.vehicleType,
+      required this.vehicleTemplateNumber,
+      required this.purposeOfTravel,
+      required this.dateOfTravel,
+      required this.returnDateAndTime,
+      required this.file});
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +44,31 @@ class VehicleRequestDialog extends StatelessWidget {
           _buildInfoRow(Icons.date_range, 'Date of Travel', dateOfTravel),
           _buildInfoRow(
               Icons.timelapse, 'Return Date and Time', returnDateAndTime),
+          file != ''
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        TextRegular(
+                            text: 'A file as attached',
+                            fontSize: 14,
+                            color: Colors.grey),
+                      ],
+                    ),
+                    IconButton(
+                      onPressed: () async {
+                        if (await canLaunch(file)) {
+                          await launch(file);
+                        } else {
+                          showToast('Cannot open file');
+                        }
+                      },
+                      icon: const Icon(Icons.download),
+                    ),
+                  ],
+                )
+              : const SizedBox()
         ],
       ),
       actions: <Widget>[
