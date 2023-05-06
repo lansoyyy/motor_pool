@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:car_rental/services/add_req.dart';
 import 'package:car_rental/widgets/button_widget.dart';
 import 'package:car_rental/widgets/text_widget.dart';
@@ -493,37 +495,39 @@ class _RequestTabState extends State<RequestTab> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           TextRegular(
-                              text: 'No files attached',
+                              text: pickedFile
+                                  ? 'A file was attached'
+                                  : 'No files attached',
                               fontSize: 12,
                               color: Colors.grey),
                           IconButton(
                             onPressed: () async {
-                              FilePickerResult? result =
-                                  await FilePicker.platform
-                                      .pickFiles(
-                                allowMultiple: false,
-                                onFileLoading: (p0) {
-                                  return const CircularProgressIndicator();
-                                },
-                              )
-                                      .then((value) {
-                                setState(
-                                  () {
-                                    pickedFile = true;
-                                    fileName = value!.names[0]!;
-                                    imageFile = File(value.paths[0]!);
-                                  },
-                                );
-                                return null;
-                              });
+                              List<int>? fileBytes;
+                              String? fileName;
 
-                              await firebase_storage.FirebaseStorage.instance
-                                  .ref('Files/$fileName')
-                                  .putFile(imageFile);
-                              fileUrl = await firebase_storage
-                                  .FirebaseStorage.instance
-                                  .ref('Files/$fileName')
-                                  .getDownloadURL();
+                              final result =
+                                  await FilePicker.platform.pickFiles(
+                                allowMultiple: false,
+                              );
+
+                              if (result != null) {
+                                setState(() {
+                                  pickedFile = true;
+                                  fileName = result.files.single.name;
+                                  fileBytes = result.files.single.bytes!;
+                                });
+                              }
+
+                              if (fileBytes != null && fileName != null) {
+                                final bytes = Uint8List.fromList(fileBytes!);
+                                await firebase_storage.FirebaseStorage.instance
+                                    .ref('Files/$fileName')
+                                    .putData(bytes);
+                                fileUrl = await firebase_storage
+                                    .FirebaseStorage.instance
+                                    .ref('Files/$fileName')
+                                    .getDownloadURL();
+                              }
                             },
                             icon: const Icon(
                               Icons.attach_file_outlined,
