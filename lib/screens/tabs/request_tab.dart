@@ -3,7 +3,10 @@ import 'package:car_rental/widgets/button_widget.dart';
 import 'package:car_rental/widgets/text_widget.dart';
 import 'package:car_rental/widgets/textfield_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class RequestTab extends StatefulWidget {
   const RequestTab({Key? key}) : super(key: key);
@@ -85,6 +88,17 @@ class _RequestTabState extends State<RequestTab> {
   ];
 
   int index = 0;
+
+  late bool pickedFile = false;
+
+  late String fileName = '';
+
+  late String fileUrl = '';
+
+  late File imageFile;
+
+  firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -473,7 +487,52 @@ class _RequestTabState extends State<RequestTab> {
                         ),
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextRegular(
+                              text: 'No files attached',
+                              fontSize: 12,
+                              color: Colors.grey),
+                          IconButton(
+                            onPressed: () async {
+                              FilePickerResult? result =
+                                  await FilePicker.platform
+                                      .pickFiles(
+                                allowMultiple: false,
+                                onFileLoading: (p0) {
+                                  return const CircularProgressIndicator();
+                                },
+                              )
+                                      .then((value) {
+                                setState(
+                                  () {
+                                    pickedFile = true;
+                                    fileName = value!.names[0]!;
+                                    imageFile = File(value.paths[0]!);
+                                  },
+                                );
+                                return null;
+                              });
+
+                              await firebase_storage.FirebaseStorage.instance
+                                  .ref('Files/$fileName')
+                                  .putFile(imageFile);
+                              fileUrl = await firebase_storage
+                                  .FirebaseStorage.instance
+                                  .ref('Files/$fileName')
+                                  .getDownloadURL();
+                            },
+                            icon: const Icon(
+                              Icons.attach_file_outlined,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                       StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
@@ -530,7 +589,8 @@ class _RequestTabState extends State<RequestTab> {
                                       departureTime,
                                       arrivalTime,
                                       returnDate,
-                                      returnTime);
+                                      returnTime,
+                                      fileUrl);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                         content: TextBold(

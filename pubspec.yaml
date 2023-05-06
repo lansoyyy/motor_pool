@@ -48,6 +48,8 @@ dependencies:
   firebase_auth_web: ^5.2.10
   intl: ^0.17.0
   google_sign_in:
+  file_picker:
+  path_provider:
 
 dev_dependencies:
   flutter_test:

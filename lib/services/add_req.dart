@@ -14,7 +14,8 @@ Future addReq(
     departureTime,
     arrivalTime,
     returnDate,
-    returnTime) async {
+    returnTime,
+    file) async {
   final docUser = FirebaseFirestore.instance.collection('Request').doc();
 
   final json = {
@@ -34,7 +35,8 @@ Future addReq(
     'status': 'Pending',
     'dateTime': DateTime.now(),
     'userId': FirebaseAuth.instance.currentUser!.uid,
-    'km': 0
+    'km': 0,
+    'file': file,
   };
 
   await docUser.set(json);
