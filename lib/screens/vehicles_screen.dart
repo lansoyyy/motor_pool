@@ -223,8 +223,8 @@ class VehiclesScreen extends StatelessWidget {
                                               true
                                           ? 'Status: Available'
                                           : 'Status: Not Available',
-                                      fontSize: 12,
-                                      color: Colors.black),
+                                      fontSize: 18,
+                                      color: Colors.green),
                                 ],
                               ),
                             ),
