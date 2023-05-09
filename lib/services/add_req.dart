@@ -15,7 +15,8 @@ Future addReq(
     arrivalTime,
     returnDate,
     returnTime,
-    List file) async {
+    List file,
+    numberOfPassengers) async {
   final docUser = FirebaseFirestore.instance.collection('Request').doc();
 
   final json = {
@@ -37,6 +38,7 @@ Future addReq(
     'userId': FirebaseAuth.instance.currentUser!.uid,
     'km': 0,
     'file': file,
+    'numberOfPassengers': numberOfPassengers
   };
 
   await docUser.set(json);

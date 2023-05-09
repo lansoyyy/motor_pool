@@ -12,7 +12,8 @@ class VehicleRequestDialog extends StatelessWidget {
   final String purposeOfTravel;
   final String dateOfTravel;
   final String returnDateAndTime;
-  final String file;
+  final List file;
+  final String pass;
 
   const VehicleRequestDialog(
       {super.key,
@@ -24,7 +25,8 @@ class VehicleRequestDialog extends StatelessWidget {
       required this.purposeOfTravel,
       required this.dateOfTravel,
       required this.returnDateAndTime,
-      required this.file});
+      required this.file,
+      required this.pass});
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class VehicleRequestDialog extends StatelessWidget {
           _buildInfoRow(Icons.date_range, 'Date of Travel', dateOfTravel),
           _buildInfoRow(
               Icons.timelapse, 'Return Date and Time', returnDateAndTime),
+          _buildInfoRow(Icons.groups_2_outlined, 'Number of Passengers', pass),
           file != ''
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,10 +61,12 @@ class VehicleRequestDialog extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () async {
-                        if (await canLaunch(file)) {
-                          await launch(file);
-                        } else {
-                          showToast('Cannot open file');
+                        for (int i = 0; i < file.length; i++) {
+                          if (await canLaunch(file[i])) {
+                            await launch(file[i]);
+                          } else {
+                            showToast('Cannot open file');
+                          }
                         }
                       },
                       icon: const Icon(Icons.download),

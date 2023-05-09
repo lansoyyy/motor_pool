@@ -51,6 +51,7 @@ class NotifTab extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return VehicleRequestDialog(
+                                    pass: userData['numberOfPassengers'],
                                     file: userData['file'] ?? '',
                                     name: userData['name'],
                                     contactNumber: userData['contactNumber'],

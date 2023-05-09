@@ -28,6 +28,7 @@ class _RequestTabState extends State<RequestTab> {
   final contactNumberController = TextEditingController();
   final purposeOfTravelController = TextEditingController();
   final vehicleTemplateController = TextEditingController();
+  final numPassengerController = TextEditingController();
   String dateOfTravel = '';
   String departureTime = '';
   String arrivalTime = '';
@@ -166,6 +167,12 @@ class _RequestTabState extends State<RequestTab> {
                       TextFieldWidget(
                           label: 'Destination',
                           controller: destinationController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFieldWidget(
+                          label: 'Number of Passengers',
+                          controller: numPassengerController),
                       const SizedBox(
                         height: 10,
                       ),
@@ -587,7 +594,8 @@ class _RequestTabState extends State<RequestTab> {
                                       arrivalTime,
                                       returnDate,
                                       returnTime,
-                                      fileUrls);
+                                      fileUrls,
+                                      numPassengerController.text);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                         content: TextBold(
@@ -602,6 +610,7 @@ class _RequestTabState extends State<RequestTab> {
                                   contactNumberController.clear();
                                   purposeOfTravelController.clear();
                                   vehicleTemplateController.clear();
+                                  numPassengerController.clear();
                                 }));
                           })
                     ],
