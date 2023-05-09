@@ -15,7 +15,7 @@ Future addReq(
     arrivalTime,
     returnDate,
     returnTime,
-    file) async {
+    List file) async {
   final docUser = FirebaseFirestore.instance.collection('Request').doc();
 
   final json = {
