@@ -95,6 +95,8 @@ class AdminRequest extends StatelessWidget {
                                         context: context,
                                         builder: (context) {
                                           return VehicleRequestDialog(
+                                              pass: data.docs[i]
+                                                  ['numberOfPassengers'],
                                               file: data.docs[i]['file'] ?? '',
                                               name: data.docs[i]['name'],
                                               contactNumber: data.docs[i]

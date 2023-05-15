@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:car_rental/services/add_req.dart';
 import 'package:car_rental/widgets/button_widget.dart';
 import 'package:car_rental/widgets/text_widget.dart';
 import 'package:car_rental/widgets/textfield_widget.dart';
@@ -9,6 +8,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
+import '../../services/add_req.dart';
 
 class RequestTab extends StatefulWidget {
   const RequestTab({Key? key}) : super(key: key);
@@ -27,6 +28,7 @@ class _RequestTabState extends State<RequestTab> {
   final contactNumberController = TextEditingController();
   final purposeOfTravelController = TextEditingController();
   final vehicleTemplateController = TextEditingController();
+  final numPassengerController = TextEditingController();
   String dateOfTravel = '';
   String departureTime = '';
   String arrivalTime = '';
@@ -95,7 +97,7 @@ class _RequestTabState extends State<RequestTab> {
 
   late String fileName = '';
 
-  late String fileUrl = '';
+  late List fileUrls = [];
 
   late File imageFile;
 
@@ -165,6 +167,12 @@ class _RequestTabState extends State<RequestTab> {
                       TextFieldWidget(
                           label: 'Destination',
                           controller: destinationController),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFieldWidget(
+                          label: 'Number of Passengers',
+                          controller: numPassengerController),
                       const SizedBox(
                         height: 10,
                       ),
@@ -502,31 +510,34 @@ class _RequestTabState extends State<RequestTab> {
                               color: Colors.grey),
                           IconButton(
                             onPressed: () async {
-                              List<int>? fileBytes;
-                              String? fileName;
-
                               final result =
                                   await FilePicker.platform.pickFiles(
-                                allowMultiple: false,
+                                allowMultiple: true,
                               );
 
-                              if (result != null) {
-                                setState(() {
-                                  pickedFile = true;
-                                  fileName = result.files.single.name;
-                                  fileBytes = result.files.single.bytes!;
-                                });
-                              }
+                              if (result != null && result.files.isNotEmpty) {
+                                for (int i = 0; i < result.files.length; i++) {
+                                  final fileBytes = result.files[i].bytes;
+                                  final fileName = result.files[i].name;
 
-                              if (fileBytes != null && fileName != null) {
-                                final bytes = Uint8List.fromList(fileBytes!);
-                                await firebase_storage.FirebaseStorage.instance
-                                    .ref('Files/$fileName')
-                                    .putData(bytes);
-                                fileUrl = await firebase_storage
-                                    .FirebaseStorage.instance
-                                    .ref('Files/$fileName')
-                                    .getDownloadURL();
+                                  if (fileBytes != null) {
+                                    final bytes = Uint8List.fromList(fileBytes);
+                                    await firebase_storage
+                                        .FirebaseStorage.instance
+                                        .ref('Files/$fileName')
+                                        .putData(bytes);
+
+                                    final fileUrl = await firebase_storage
+                                        .FirebaseStorage.instance
+                                        .ref('Files/$fileName')
+                                        .getDownloadURL();
+
+                                    setState(() {
+                                      pickedFile = true;
+                                      fileUrls.add(fileUrl);
+                                    });
+                                  }
+                                }
                               }
                             },
                             icon: const Icon(
@@ -564,18 +575,7 @@ class _RequestTabState extends State<RequestTab> {
                             return ButtonWidget(
                                 label: 'Submit',
                                 onPressed: (() async {
-                                  // for (int i = 0; i < cars.length; i++) {
-                                  //   await FirebaseFirestore.instance
-                                  //       .collection('Cars')
-                                  //       .doc(cars[i].model)
-                                  //       .set({
-                                  //     'model': cars[i].model,
-                                  //     'maker': cars[i].make,
-                                  //     'year': cars[i].year,
-                                  //     'plateNumber': cars[i].plateNumber,
-                                  //     'isAvailable': true
-                                  //   });
-                                  // }
+                                  print(fileUrls);
                                   await FirebaseFirestore.instance
                                       .collection('Cars')
                                       .doc(data1.docs[index].id)
@@ -594,7 +594,8 @@ class _RequestTabState extends State<RequestTab> {
                                       arrivalTime,
                                       returnDate,
                                       returnTime,
-                                      fileUrl);
+                                      fileUrls,
+                                      numPassengerController.text);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                         content: TextBold(
@@ -609,6 +610,7 @@ class _RequestTabState extends State<RequestTab> {
                                   contactNumberController.clear();
                                   purposeOfTravelController.clear();
                                   vehicleTemplateController.clear();
+                                  numPassengerController.clear();
                                 }));
                           })
                     ],
