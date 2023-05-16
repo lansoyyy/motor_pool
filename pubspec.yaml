@@ -50,6 +50,7 @@ dependencies:
   google_sign_in:
   file_picker:
   path_provider:
+  calendar_view:
 
 dev_dependencies:
   flutter_test:
