@@ -1,5 +1,5 @@
 import 'package:car_rental/screens/about_us.dart';
-import 'package:car_rental/screens/admin/admin_map.dart';
+import 'package:car_rental/screens/admin/admin_calendar.dart';
 import 'package:car_rental/screens/admin/admin_record.dart';
 import 'package:car_rental/screens/admin/admin_req.dart';
 import 'package:car_rental/screens/admin/vehicle_out_tab.dart';

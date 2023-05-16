@@ -32,49 +32,52 @@ class VehicleRequestDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Vehicle Request Information'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _buildInfoRow(Icons.person, 'Name', name),
-          _buildInfoRow(Icons.phone, 'Contact Number', contactNumber),
-          _buildInfoRow(Icons.business, 'Organization', organizationName),
-          _buildInfoRow(Icons.directions_car, 'Vehicle Type', vehicleType),
-          _buildInfoRow(Icons.format_list_numbered, 'Template Number',
-              vehicleTemplateNumber),
-          _buildInfoRow(Icons.note, 'Purpose of Travel', purposeOfTravel),
-          _buildInfoRow(Icons.date_range, 'Date of Travel', dateOfTravel),
-          _buildInfoRow(
-              Icons.timelapse, 'Return Date and Time', returnDateAndTime),
-          _buildInfoRow(Icons.groups_2_outlined, 'Number of Passengers', pass),
-          file != ''
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        TextRegular(
-                            text: 'A file is attached',
-                            fontSize: 14,
-                            color: Colors.grey),
-                      ],
-                    ),
-                    IconButton(
-                      onPressed: () async {
-                        for (int i = 0; i < file.length; i++) {
-                          if (await canLaunch(file[i])) {
-                            await launch(file[i]);
-                          } else {
-                            showToast('Cannot open file');
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            _buildInfoRow(Icons.person, 'Name', name),
+            _buildInfoRow(Icons.phone, 'Contact Number', contactNumber),
+            _buildInfoRow(Icons.business, 'Organization', organizationName),
+            _buildInfoRow(Icons.directions_car, 'Vehicle Type', vehicleType),
+            _buildInfoRow(Icons.format_list_numbered, 'Template Number',
+                vehicleTemplateNumber),
+            _buildInfoRow(Icons.note, 'Purpose of Travel', purposeOfTravel),
+            _buildInfoRow(Icons.date_range, 'Date of Travel', dateOfTravel),
+            _buildInfoRow(
+                Icons.timelapse, 'Return Date and Time', returnDateAndTime),
+            _buildInfoRow(
+                Icons.groups_2_outlined, 'Number of Passengers', pass),
+            file != ''
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          TextRegular(
+                              text: 'A file is attached',
+                              fontSize: 14,
+                              color: Colors.grey),
+                        ],
+                      ),
+                      IconButton(
+                        onPressed: () async {
+                          for (int i = 0; i < file.length; i++) {
+                            if (await canLaunch(file[i])) {
+                              await launch(file[i]);
+                            } else {
+                              showToast('Cannot open file');
+                            }
                           }
-                        }
-                      },
-                      icon: const Icon(Icons.download),
-                    ),
-                  ],
-                )
-              : const SizedBox()
-        ],
+                        },
+                        icon: const Icon(Icons.download),
+                      ),
+                    ],
+                  )
+                : const SizedBox()
+          ],
+        ),
       ),
       actions: <Widget>[
         TextButton(
