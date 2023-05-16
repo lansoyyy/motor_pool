@@ -148,7 +148,7 @@ class HomeScreen extends StatelessWidget {
                               ? NotifTab()
                               : AdminRecord(),
                           userType == UserType.admin
-                              ? VehicleOutTab()
+                              ? const VehicleOutTab()
                               : const SizedBox()
                         ]),
                       )),
@@ -184,10 +184,10 @@ class HomeScreen extends StatelessWidget {
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const AdminMap()));
+                                                  const AdminCalendar()));
                                     },
                                     child: TextBold(
-                                        text: 'Map of Vehicles',
+                                        text: 'Calendar',
                                         fontSize: 18,
                                         color: Colors.white))
                                 : const SizedBox(),

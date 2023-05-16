@@ -5,14 +5,14 @@ import 'package:latlong2/latlong.dart';
 
 import '../home_screen.dart';
 
-class AdminMap extends StatefulWidget {
-  const AdminMap({Key? key}) : super(key: key);
+class AdminCalendar extends StatefulWidget {
+  const AdminCalendar({Key? key}) : super(key: key);
 
   @override
-  State<AdminMap> createState() => AdminMapState();
+  State<AdminCalendar> createState() => AdminCalendarState();
 }
 
-class AdminMapState extends State<AdminMap> {
+class AdminCalendarState extends State<AdminCalendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +28,7 @@ class AdminMapState extends State<AdminMap> {
             )),
         backgroundColor: const Color(0xff6571E0),
         title: const Text(
-          'Map of Vehicles',
+          'Calendar of Request',
           style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
