@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../widgets/button_widget.dart';
 import '../../widgets/form_into_dialog.dart';
 import '../../widgets/text_widget.dart';
+import '../../widgets/toast_widget.dart';
 import '../home_screen.dart';
 import 'package:intl/intl.dart';
 
@@ -18,7 +19,13 @@ class AdminCalendar extends StatefulWidget {
 class AdminCalendarState extends State<AdminCalendar> {
   final scrollController = ScrollController();
 
-  String date = DateFormat('yyyy/MM/dd').format(DateTime.now());
+  int dropValue = 0;
+
+  String newVehicle = '';
+
+  String newPlateNumber = '';
+
+  String date = DateFormat('d/M/yyyy').format(DateTime.now());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +57,7 @@ class AdminCalendarState extends State<AdminCalendar> {
             children: [
               SizedBox(
                 height: double.infinity,
-                width: 500,
+                width: 400,
                 child: MonthView(
                     headerStyle: const HeaderStyle(
                       headerTextStyle: TextStyle(color: Colors.black),
@@ -58,7 +65,7 @@ class AdminCalendarState extends State<AdminCalendar> {
                     ),
                     onCellTap: (events, thisDate) {
                       setState(() {
-                        date = DateFormat('yyyy/MM/dd').format(thisDate);
+                        date = DateFormat('d/M/yyyy').format(thisDate);
                       });
                     },
                     controller: EventController()),
@@ -86,7 +93,8 @@ class AdminCalendarState extends State<AdminCalendar> {
                         child: StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance
                                 .collection('Request')
-                                .where('status', isEqualTo: 'Pending')
+                                .where('status', isEqualTo: 'Approved')
+                                .where('dateOfTravel', isEqualTo: date)
                                 .snapshots(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -110,6 +118,12 @@ class AdminCalendarState extends State<AdminCalendar> {
                                 DataColumn(
                                   label: TextBold(
                                       text: '',
+                                      fontSize: 18,
+                                      color: Colors.black),
+                                ),
+                                DataColumn(
+                                  label: TextBold(
+                                      text: 'Organization',
                                       fontSize: 18,
                                       color: Colors.black),
                                 ),
@@ -180,6 +194,12 @@ class AdminCalendarState extends State<AdminCalendar> {
                                     ),
                                     DataCell(
                                       TextRegular(
+                                          text: data.docs[i]['organization'],
+                                          fontSize: 14,
+                                          color: Colors.grey),
+                                    ),
+                                    DataCell(
+                                      TextRegular(
                                           text: data.docs[i]['name'],
                                           fontSize: 14,
                                           color: Colors.grey),
@@ -200,34 +220,304 @@ class AdminCalendarState extends State<AdminCalendar> {
                                       Row(
                                         children: [
                                           ButtonWidget(
-                                              width: 120,
+                                              width: 100,
                                               height: 40,
-                                              fontSize: 12,
+                                              fontSize: 11,
                                               color: Colors.green,
-                                              label: 'Approve',
+                                              label: 'Mark as Returned',
                                               onPressed: () async {
-                                                await FirebaseFirestore.instance
-                                                    .collection('Request')
-                                                    .doc(data.docs[i].id)
-                                                    .update(
-                                                        {'status': 'Approved'});
+                                                if (data.docs[i]['status'] !=
+                                                    'Approved') {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          title: TextBold(
+                                                              text:
+                                                                  'Return vehicle confirmation',
+                                                              fontSize: 18,
+                                                              color:
+                                                                  Colors.black),
+                                                          content: TextRegular(
+                                                              text:
+                                                                  'Are you sure you want to make this completed?',
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.black),
+                                                          actions: [
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: TextRegular(
+                                                                      text:
+                                                                          'Close',
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Colors
+                                                                          .grey),
+                                                                ),
+                                                                TextButton(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    await FirebaseFirestore
+                                                                        .instance
+                                                                        .collection(
+                                                                            'Request')
+                                                                        .doc(data
+                                                                            .docs[
+                                                                                i]
+                                                                            .id)
+                                                                        .update({
+                                                                      'status':
+                                                                          'Completed'
+                                                                    });
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: TextBold(
+                                                                      text:
+                                                                          'Return',
+                                                                      fontSize:
+                                                                          14,
+                                                                      color: Colors
+                                                                          .black),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+                                                } else {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          title: TextBold(
+                                                              text:
+                                                                  'Return vehicle confirmation',
+                                                              fontSize: 18,
+                                                              color:
+                                                                  Colors.black),
+                                                          content: TextRegular(
+                                                              text:
+                                                                  "The personal didn't mark the vehicle as returned, are you sure you wanted to mark it as completed?",
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.black),
+                                                          actions: [
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: TextRegular(
+                                                                      text:
+                                                                          'Close',
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Colors
+                                                                          .grey),
+                                                                ),
+                                                                TextButton(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    await FirebaseFirestore
+                                                                        .instance
+                                                                        .collection(
+                                                                            'Request')
+                                                                        .doc(data
+                                                                            .docs[
+                                                                                i]
+                                                                            .id)
+                                                                        .update({
+                                                                      'status':
+                                                                          'Completed'
+                                                                    });
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: TextBold(
+                                                                      text:
+                                                                          'Return',
+                                                                      fontSize:
+                                                                          14,
+                                                                      color: Colors
+                                                                          .black),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+                                                }
                                               }),
                                           const SizedBox(
-                                            width: 10,
+                                            width: 5,
                                           ),
                                           ButtonWidget(
-                                              width: 120,
+                                              width: 100,
                                               height: 40,
-                                              fontSize: 12,
-                                              color: Colors.red,
-                                              label: 'Decline',
+                                              fontSize: 11,
+                                              color: Colors.blue,
+                                              label: 'Transfer Request',
                                               onPressed: () async {
-                                                await FirebaseFirestore.instance
-                                                    .collection('Request')
-                                                    .doc(data.docs[i].id)
-                                                    .update(
-                                                        {'status': 'Declined'});
-                                              })
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        title: TextBold(
+                                                            text:
+                                                                'Transfer request of vehicle confirmation',
+                                                            fontSize: 18,
+                                                            color:
+                                                                Colors.black),
+                                                        content: TextRegular(
+                                                            text:
+                                                                "Are you sure you wanted to transfer ${data.docs[i]['name']}'s request?",
+                                                            fontSize: 14,
+                                                            color:
+                                                                Colors.black),
+                                                        actions: [
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              TextButton(
+                                                                onPressed: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                child: TextRegular(
+                                                                    text:
+                                                                        'Close',
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .grey),
+                                                              ),
+                                                              TextButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  Navigator.pop(
+                                                                      context);
+
+                                                                  showDialog(
+                                                                      context:
+                                                                          context,
+                                                                      builder:
+                                                                          (context) {
+                                                                        return AlertDialog(
+                                                                          title: TextBold(
+                                                                              text: 'Select a vehicle',
+                                                                              fontSize: 14,
+                                                                              color: Colors.black),
+                                                                          content:
+                                                                              StatefulBuilder(builder: (context, setState) {
+                                                                            return Container(
+                                                                              decoration: BoxDecoration(
+                                                                                  color: Colors.white.withOpacity(0.75),
+                                                                                  border: Border.all(
+                                                                                    color: Colors.black,
+                                                                                  ),
+                                                                                  borderRadius: BorderRadius.circular(5)),
+                                                                              width: 300,
+                                                                              height: 35,
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(left: 10, right: 10),
+                                                                                child: StreamBuilder<QuerySnapshot>(
+                                                                                    stream: FirebaseFirestore.instance.collection('Cars').where('isAvailable', isEqualTo: true).snapshots(),
+                                                                                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                                                                      if (snapshot.hasError) {
+                                                                                        print(snapshot.error);
+                                                                                        return const Center(child: Text('Error'));
+                                                                                      }
+                                                                                      if (snapshot.connectionState == ConnectionState.waiting) {
+                                                                                        return const Padding(
+                                                                                          padding: EdgeInsets.only(top: 50),
+                                                                                          child: Center(
+                                                                                              child: CircularProgressIndicator(
+                                                                                            color: Colors.black,
+                                                                                          )),
+                                                                                        );
+                                                                                      }
+
+                                                                                      final data = snapshot.requireData;
+                                                                                      return DropdownButton(
+                                                                                          underline: Container(color: Colors.transparent),
+                                                                                          value: dropValue,
+                                                                                          onChanged: (value) {
+                                                                                            setState(() {
+                                                                                              dropValue = int.parse(value.toString());
+                                                                                            });
+                                                                                          },
+                                                                                          items: [
+                                                                                            for (int i = 0; i < data.docs.length; i++)
+                                                                                              DropdownMenuItem(
+                                                                                                onTap: () {
+                                                                                                  newVehicle = data.docs[i]['model'];
+                                                                                                  newPlateNumber = data.docs[i]['plateNumber'];
+                                                                                                },
+                                                                                                value: i,
+                                                                                                child: Text(data.docs[i]['model']),
+                                                                                              )
+                                                                                          ]);
+                                                                                    }),
+                                                                              ),
+                                                                            );
+                                                                          }),
+                                                                          actions: <
+                                                                              Widget>[
+                                                                            MaterialButton(
+                                                                              onPressed: () => Navigator.of(context).pop(true),
+                                                                              child: TextBold(text: 'Close', color: Colors.black, fontSize: 14),
+                                                                            ),
+                                                                            MaterialButton(
+                                                                              onPressed: () async {
+                                                                                Navigator.of(context).pop();
+                                                                                showToast('Request transferred succesfully!');
+                                                                                await FirebaseFirestore.instance.collection('Request').doc(data.docs[i].id).update({
+                                                                                  'vehicle': newVehicle,
+                                                                                  'vehicleTemplate': newPlateNumber
+                                                                                });
+                                                                                await FirebaseFirestore.instance.collection('Cars').doc(newVehicle).update({
+                                                                                  'isAvailable': false
+                                                                                });
+                                                                              },
+                                                                              child: TextBold(text: 'Continue', color: Colors.black, fontSize: 14),
+                                                                            ),
+                                                                          ],
+                                                                        );
+                                                                      });
+                                                                },
+                                                                child: TextBold(
+                                                                    text:
+                                                                        'Continue',
+                                                                    fontSize:
+                                                                        14,
+                                                                    color: Colors
+                                                                        .black),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      );
+                                                    });
+                                              }),
                                         ],
                                       ),
                                     ),
