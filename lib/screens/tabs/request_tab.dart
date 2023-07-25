@@ -108,7 +108,7 @@ class _RequestTabState extends State<RequestTab> {
   Widget build(BuildContext context) {
     return Padding(
       padding:
-          const EdgeInsets.only(left: 300, right: 300, top: 50, bottom: 50),
+          const EdgeInsets.only(left: 150, right: 150, top: 50, bottom: 50),
       child: Card(
         color: Colors.white.withOpacity(0.75),
         shape: RoundedRectangleBorder(
@@ -120,7 +120,7 @@ class _RequestTabState extends State<RequestTab> {
             borderRadius: BorderRadius.circular(10),
           ),
           height: 250,
-          width: 100,
+          width: double.infinity,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,

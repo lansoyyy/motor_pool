@@ -51,6 +51,7 @@ dependencies:
   file_picker:
   path_provider:
   calendar_view:
+  firebase_auth_oauth:
 
 dev_dependencies:
   flutter_test:

@@ -178,19 +178,17 @@ class HomeScreen extends StatelessWidget {
                                     text: 'Our vehicles',
                                     fontSize: 18,
                                     color: Colors.white)),
-                            userType != UserType.user
-                                ? TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pushReplacement(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const AdminCalendar()));
-                                    },
-                                    child: TextBold(
-                                        text: 'Calendar',
-                                        fontSize: 18,
-                                        color: Colors.white))
-                                : const SizedBox(),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const AdminCalendar()));
+                                },
+                                child: TextBold(
+                                    text: 'Calendar',
+                                    fontSize: 18,
+                                    color: Colors.white)),
                             TextButton(
                                 onPressed: () async {
                                   const buksu = 'https://buksu.edu.ph/';
