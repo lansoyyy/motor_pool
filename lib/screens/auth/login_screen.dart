@@ -338,7 +338,7 @@ class LoginScreen extends StatelessWidget {
                           onPressed: () {
                             Navigator.of(context)
                                 .pushReplacement(MaterialPageRoute(
-                                    builder: (context) => const VehiclesScreen(
+                                    builder: (context) => VehiclesScreen(
                                           usage: AboutusUsage.loginPage,
                                         )));
                           },

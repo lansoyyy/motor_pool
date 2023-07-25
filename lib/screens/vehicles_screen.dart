@@ -2,7 +2,6 @@ import 'package:car_rental/widgets/text_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../data/vehicles.dart';
 import '../utils/constant.dart';
 import 'auth/login_screen.dart';
 
@@ -10,10 +9,26 @@ class VehiclesScreen extends StatelessWidget {
   final AboutusUsage? usage;
   final UserType? userType;
 
-  const VehiclesScreen(
+  VehiclesScreen(
       {super.key,
       this.usage = AboutusUsage.homePage,
       this.userType = UserType.user});
+
+  List vehicles = [
+    'assets/images/1.png',
+    'assets/images/2.png',
+    'assets/images/3.png',
+    'assets/images/4.png',
+    'assets/images/5.png',
+    'assets/images/6.png',
+    'assets/images/7.png',
+    'assets/images/8.png',
+    'assets/images/9.png',
+    'assets/images/10.png',
+    'assets/images/11.png',
+    'assets/images/12.png',
+    'assets/images/13.png',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +183,14 @@ class VehiclesScreen extends StatelessWidget {
                           elevation: 20,
                           child: Container(
                             width: double.infinity,
-                            color: Colors.white,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                  width: 2,
+                                  color: data.docs[index]['isAvailable'] == true
+                                      ? Colors.green
+                                      : Colors.red),
+                            ),
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
                               child: Column(
@@ -177,13 +199,9 @@ class VehiclesScreen extends StatelessWidget {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  Image.network(
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Image.network(
-                                          'https://www.pngitem.com/pimgs/m/287-2876158_not-available-hd-png-download.png');
-                                    },
-                                    cars[index].imageUrl,
-                                    height: 150,
+                                  Image.asset(
+                                    vehicles[index],
+                                    height: 100,
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -191,7 +209,10 @@ class VehiclesScreen extends StatelessWidget {
                                   TextBold(
                                       text: data.docs[index]['model'],
                                       fontSize: 18,
-                                      color: Colors.black),
+                                      color: data.docs[index]['isAvailable'] ==
+                                              true
+                                          ? Colors.black
+                                          : Colors.red),
                                   const SizedBox(
                                     height: 10,
                                   ),
@@ -224,7 +245,10 @@ class VehiclesScreen extends StatelessWidget {
                                           ? 'Status: Available'
                                           : 'Status: Not Available',
                                       fontSize: 18,
-                                      color: Colors.green),
+                                      color: data.docs[index]['isAvailable'] ==
+                                              true
+                                          ? Colors.green
+                                          : Colors.red),
                                 ],
                               ),
                             ),
