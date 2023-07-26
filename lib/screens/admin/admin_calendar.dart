@@ -26,6 +26,7 @@ class AdminCalendarState extends State<AdminCalendar> {
   String newPlateNumber = '';
 
   String date = DateFormat('d/M/yyyy').format(DateTime.now());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,19 +78,18 @@ class AdminCalendarState extends State<AdminCalendar> {
                     padding: const EdgeInsets.only(top: 20, left: 30),
                     child: TextBold(
                         text: 'List of Request ($date)',
-                        fontSize: 24,
+                        fontSize: 18,
                         color: Colors.black),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  Scrollbar(
-                    controller: scrollController,
-                    child: SingleChildScrollView(
+                  SingleChildScrollView(
+                    child: Scrollbar(
                       controller: scrollController,
-                      scrollDirection: Axis.horizontal,
                       child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
+                        controller: scrollController,
+                        scrollDirection: Axis.horizontal,
                         child: StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance
                                 .collection('Request')
@@ -118,37 +118,37 @@ class AdminCalendarState extends State<AdminCalendar> {
                                 DataColumn(
                                   label: TextBold(
                                       text: '',
-                                      fontSize: 18,
+                                      fontSize: 14,
                                       color: Colors.black),
                                 ),
                                 DataColumn(
                                   label: TextBold(
                                       text: 'Organization',
-                                      fontSize: 18,
+                                      fontSize: 14,
                                       color: Colors.black),
                                 ),
                                 DataColumn(
                                   label: TextBold(
                                       text: 'Name',
-                                      fontSize: 18,
+                                      fontSize: 14,
                                       color: Colors.black),
                                 ),
                                 DataColumn(
                                   label: TextBold(
                                       text: 'Vehicle',
-                                      fontSize: 18,
+                                      fontSize: 14,
                                       color: Colors.black),
                                 ),
                                 DataColumn(
                                   label: TextBold(
                                       text: 'Destination',
-                                      fontSize: 18,
+                                      fontSize: 14,
                                       color: Colors.black),
                                 ),
                                 DataColumn(
                                   label: TextBold(
                                       text: '',
-                                      fontSize: 18,
+                                      fontSize: 0,
                                       color: Colors.black),
                                 ),
                               ], rows: [
@@ -195,34 +195,34 @@ class AdminCalendarState extends State<AdminCalendar> {
                                     DataCell(
                                       TextRegular(
                                           text: data.docs[i]['organization'],
-                                          fontSize: 14,
+                                          fontSize: 12,
                                           color: Colors.grey),
                                     ),
                                     DataCell(
                                       TextRegular(
                                           text: data.docs[i]['name'],
-                                          fontSize: 14,
+                                          fontSize: 12,
                                           color: Colors.grey),
                                     ),
                                     DataCell(
                                       TextRegular(
                                           text: data.docs[i]['vehicle'],
-                                          fontSize: 14,
+                                          fontSize: 12,
                                           color: Colors.grey),
                                     ),
                                     DataCell(
                                       TextRegular(
                                           text: data.docs[i]['destination'],
-                                          fontSize: 14,
+                                          fontSize: 12,
                                           color: Colors.grey),
                                     ),
                                     DataCell(
                                       Row(
                                         children: [
                                           ButtonWidget(
-                                              width: 100,
+                                              width: 75,
                                               height: 40,
-                                              fontSize: 11,
+                                              fontSize: 10,
                                               color: Colors.green,
                                               label: 'Mark as Returned',
                                               onPressed: () async {
@@ -369,9 +369,9 @@ class AdminCalendarState extends State<AdminCalendar> {
                                             width: 5,
                                           ),
                                           ButtonWidget(
-                                              width: 100,
+                                              width: 75,
                                               height: 40,
-                                              fontSize: 11,
+                                              fontSize: 10,
                                               color: Colors.blue,
                                               label: 'Transfer Request',
                                               onPressed: () async {
