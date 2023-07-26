@@ -197,18 +197,18 @@ class VehiclesScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const SizedBox(
-                                    height: 20,
+                                    height: 10,
                                   ),
                                   Image.asset(
                                     vehicles[index],
                                     height: 100,
                                   ),
                                   const SizedBox(
-                                    height: 20,
+                                    height: 10,
                                   ),
                                   TextBold(
                                       text: data.docs[index]['model'],
-                                      fontSize: 18,
+                                      fontSize: 14,
                                       color: data.docs[index]['isAvailable'] ==
                                               true
                                           ? Colors.black
@@ -222,14 +222,14 @@ class VehiclesScreen extends StatelessWidget {
                                       fontSize: 12,
                                       color: Colors.black),
                                   const SizedBox(
-                                    height: 10,
+                                    height: 5,
                                   ),
                                   TextBold(
                                       text: 'Year: ${data.docs[index]['year']}',
                                       fontSize: 12,
                                       color: Colors.black),
                                   const SizedBox(
-                                    height: 10,
+                                    height: 5,
                                   ),
                                   TextBold(
                                       text:
@@ -244,7 +244,7 @@ class VehiclesScreen extends StatelessWidget {
                                               true
                                           ? 'Status: Available'
                                           : 'Status: Not Available',
-                                      fontSize: 18,
+                                      fontSize: 14,
                                       color: data.docs[index]['isAvailable'] ==
                                               true
                                           ? Colors.green
