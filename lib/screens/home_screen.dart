@@ -181,10 +181,14 @@ class HomeScreen extends StatelessWidget {
                                     color: Colors.white)),
                             TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const AdminCalendar()));
+                                  Navigator.of(context)
+                                      .pushReplacement(MaterialPageRoute(
+                                          builder: (context) => AdminCalendar(
+                                                usertype:
+                                                    userType == UserType.user
+                                                        ? UserType.user
+                                                        : UserType.admin,
+                                              )));
                                 },
                                 child: TextBold(
                                     text: 'Calendar',

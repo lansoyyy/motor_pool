@@ -1,4 +1,5 @@
 import 'package:calendar_view/calendar_view.dart';
+import 'package:car_rental/utils/constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,9 @@ import '../home_screen.dart';
 import 'package:intl/intl.dart';
 
 class AdminCalendar extends StatefulWidget {
-  const AdminCalendar({Key? key}) : super(key: key);
+  final UserType usertype;
+
+  const AdminCalendar({super.key, required this.usertype});
 
   @override
   State<AdminCalendar> createState() => AdminCalendarState();
@@ -33,8 +36,10 @@ class AdminCalendarState extends State<AdminCalendar> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => HomeScreen(
+                        userType: widget.usertype,
+                      )));
             },
             icon: const Icon(
               Icons.arrow_back_ios,
