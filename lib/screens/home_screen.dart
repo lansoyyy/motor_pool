@@ -35,6 +35,7 @@ class HomeScreen extends StatelessWidget {
                   image: DecorationImage(
                     opacity: 150.0,
                     image: AssetImage('assets/images/back.png'),
+                    fit: BoxFit.cover,
                   ),
                 ),
                 child: Padding(
