@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:car_rental/widgets/button_widget.dart';
 import 'package:car_rental/widgets/text_widget.dart';
 import 'package:car_rental/widgets/textfield_widget.dart';
+import 'package:car_rental/widgets/toast_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -575,42 +576,53 @@ class _RequestTabState extends State<RequestTab> {
                             return ButtonWidget(
                                 label: 'Submit',
                                 onPressed: (() async {
-                                  print(fileUrls);
-                                  await FirebaseFirestore.instance
-                                      .collection('Cars')
-                                      .doc(data1.docs[index].id)
-                                      .update({'isAvailable': false});
-                                  addReq(
-                                      nameController.text,
-                                      addressController.text,
-                                      destinationController.text,
-                                      organizationController.text,
-                                      contactNumberController.text,
-                                      purposeOfTravelController.text,
-                                      _selectedPlate,
-                                      _selectedItem,
-                                      dateOfTravel,
-                                      departureTime,
-                                      arrivalTime,
-                                      returnDate,
-                                      returnTime,
-                                      fileUrls,
-                                      numPassengerController.text);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: TextBold(
-                                            text: 'Request sent succesfully!',
-                                            fontSize: 18,
-                                            color: Colors.white)),
-                                  );
-                                  nameController.clear();
-                                  destinationController.clear();
-                                  addressController.clear();
-                                  organizationController.clear();
-                                  contactNumberController.clear();
-                                  purposeOfTravelController.clear();
-                                  vehicleTemplateController.clear();
-                                  numPassengerController.clear();
+                                  if (nameController.text != '' &&
+                                      addressController.text != '' &&
+                                      destinationController.text != '' &&
+                                      organizationController.text != '' &&
+                                      contactNumberController.text != '' &&
+                                      purposeOfTravelController.text != '' &&
+                                      vehicleTemplateController.text != '' &&
+                                      numPassengerController.text != '') {
+                                    await FirebaseFirestore.instance
+                                        .collection('Cars')
+                                        .doc(data1.docs[index].id)
+                                        .update({'isAvailable': false});
+                                    addReq(
+                                        nameController.text,
+                                        addressController.text,
+                                        destinationController.text,
+                                        organizationController.text,
+                                        contactNumberController.text,
+                                        purposeOfTravelController.text,
+                                        _selectedPlate,
+                                        _selectedItem,
+                                        dateOfTravel,
+                                        departureTime,
+                                        arrivalTime,
+                                        returnDate,
+                                        returnTime,
+                                        fileUrls,
+                                        numPassengerController.text);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: TextBold(
+                                              text: 'Request sent succesfully!',
+                                              fontSize: 18,
+                                              color: Colors.white)),
+                                    );
+                                    nameController.clear();
+                                    destinationController.clear();
+                                    addressController.clear();
+                                    organizationController.clear();
+                                    contactNumberController.clear();
+                                    purposeOfTravelController.clear();
+                                    vehicleTemplateController.clear();
+                                    numPassengerController.clear();
+                                  } else {
+                                    showToast(
+                                        'Cannot submit request! Please fill all the forms to proceed.');
+                                  }
                                 }));
                           })
                     ],
