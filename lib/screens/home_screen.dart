@@ -56,14 +56,11 @@ class HomeScreen extends StatelessWidget {
                           const SizedBox(
                             width: 20,
                           ),
-                          SizedBox(
-                            width: 500,
-                            child: TextBold(
-                                text:
-                                    'Physical Plant Maintenance Unit Motorpool Department',
-                                fontSize: 28,
-                                color: Colors.white),
-                          ),
+                          TextBold(
+                              text:
+                                  'Physical Plant Maintenance Unit Motorpool Department',
+                              fontSize: 28,
+                              color: Colors.white),
                         ],
                       ),
                       const SizedBox(
