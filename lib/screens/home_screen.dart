@@ -64,14 +64,20 @@ class HomeScreen extends StatelessWidget {
                                 fontSize: 28,
                                 color: Colors.white),
                           ),
-                          const SizedBox(
-                            width: 50,
-                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
                           SizedBox(
-                            width: 400,
+                            width: 600,
                             child: TabBar(
                                 labelStyle: const TextStyle(
-                                    fontFamily: 'QBold', fontSize: 15),
+                                    fontFamily: 'QBold', fontSize: 18),
                                 tabs: [
                                   const Tab(
                                     text: 'Request',
@@ -87,9 +93,54 @@ class HomeScreen extends StatelessWidget {
                                           : ''),
                                 ]),
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => const AboutUsPage()));
+                              },
+                              child: TextBold(
+                                  text: 'About us',
+                                  fontSize: 18,
+                                  color: Colors.white)),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => VehiclesScreen(
+                                          userType: userType,
+                                        )));
+                              },
+                              child: TextBold(
+                                  text: 'Our vehicles',
+                                  fontSize: 18,
+                                  color: Colors.white)),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
+                                        builder: (context) => AdminCalendar(
+                                              usertype:
+                                                  userType == UserType.user
+                                                      ? UserType.user
+                                                      : UserType.admin,
+                                            )));
+                              },
+                              child: TextBold(
+                                  text: 'Calendar',
+                                  fontSize: 18,
+                                  color: Colors.white)),
+                          TextButton(
+                              onPressed: () async {
+                                const buksu = 'https://buksu.edu.ph/';
+                                if (await canLaunch(buksu)) {
+                                  await launch(buksu);
+                                } else {
+                                  throw 'Could not launch $buksu';
+                                }
+                              },
+                              child: TextBold(
+                                  text: 'University Link',
+                                  fontSize: 18,
+                                  color: Colors.white)),
                           IconButton(
                             onPressed: () {
                               showDialog(
@@ -131,11 +182,8 @@ class HomeScreen extends StatelessWidget {
                             },
                             icon: const Icon(
                               Icons.logout,
-                              color: Colors.white,
+                              color: Colors.red,
                             ),
-                          ),
-                          const SizedBox(
-                            width: 20,
                           ),
                         ],
                       ),
@@ -153,63 +201,6 @@ class HomeScreen extends StatelessWidget {
                               : const SizedBox()
                         ]),
                       )),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const AboutUsPage()));
-                                },
-                                child: TextBold(
-                                    text: 'About us',
-                                    fontSize: 18,
-                                    color: Colors.white)),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => VehiclesScreen(
-                                            userType: userType,
-                                          )));
-                                },
-                                child: TextBold(
-                                    text: 'Our vehicles',
-                                    fontSize: 18,
-                                    color: Colors.white)),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.of(context)
-                                      .pushReplacement(MaterialPageRoute(
-                                          builder: (context) => AdminCalendar(
-                                                usertype:
-                                                    userType == UserType.user
-                                                        ? UserType.user
-                                                        : UserType.admin,
-                                              )));
-                                },
-                                child: TextBold(
-                                    text: 'Calendar',
-                                    fontSize: 18,
-                                    color: Colors.white)),
-                            TextButton(
-                                onPressed: () async {
-                                  const buksu = 'https://buksu.edu.ph/';
-                                  if (await canLaunch(buksu)) {
-                                    await launch(buksu);
-                                  } else {
-                                    throw 'Could not launch $buksu';
-                                  }
-                                },
-                                child: TextBold(
-                                    text: 'University Link',
-                                    fontSize: 18,
-                                    color: Colors.white)),
-                          ],
-                        ),
-                      )
                     ],
                   ),
                 ),
